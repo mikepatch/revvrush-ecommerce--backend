@@ -9,3 +9,65 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
+
+model Product {
+  id                String              @id @default(uuid())
+  name              String
+  description       String
+  price             Int
+  cover_image       String
+  category          ProductCategory     @relation(fields: [category_id], references: [id])
+  category_id       String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  ProductCollection ProductCollection[]
+  Order             Order?              @relation(fields: [orderId], references: [id])
+  orderId           String?
+}
+
+model ProductCategory {
+  id        String    @id @default(uuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  product   Product[]
+}
+
+model Collection {
+  id        String              @id @default(uuid())
+  name      String
+  products  ProductCollection[]
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+}
+
+model ProductCollection {
+  product       Product    @relation(fields: [product_id], references: [id])
+  product_id    String
+  collection    Collection @relation(fields: [collection_id], references: [id])
+  collection_id String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@id([product_id, collection_id])
+}
+
+model Order {
+  id        String    @id @default(uuid())
+  user      User      @relation(fields: [user_id], references: [id])
+  user_id   String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
