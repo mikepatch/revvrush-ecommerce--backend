@@ -9,6 +9,8 @@ import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
 import { ProductCategoriesModule } from './product-categories/product-categories.module';
 import { ProductsModule } from './products/products.module';
+import { CollectionsModule } from 'src/collections/collections.module';
+import { ProductVariantsModule } from './product-variants/product-variants.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { ProductsModule } from './products/products.module';
     SharedModule,
     ProductCategoriesModule,
     ProductsModule,
+    CollectionsModule,
+    ProductVariantsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
