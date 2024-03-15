@@ -1,0 +1,293 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Collection {
+  """Product collection cover image URL"""
+  coverImage: String!
+  createdAt: String!
+
+  """Product collection description"""
+  description: String
+
+  """Product collection ID"""
+  id: ID!
+
+  """Product collection name"""
+  name: String!
+
+  """Product IDs in the collection"""
+  productIds: [ID!]!
+
+  """Products in the collection"""
+  products: [Product!]!
+
+  """Product collection slug"""
+  slug: String
+  updatedAt: String!
+}
+
+input CreateCollectionInput {
+  """Product collection cover image URL"""
+  coverImage: String!
+
+  """Product collection description"""
+  description: String
+
+  """Product collection name"""
+  name: String!
+
+  """Product IDs in the collection"""
+  productIds: [ID!]!
+}
+
+"""New product category input"""
+input CreateProductCategoryInput {
+  """Product category name"""
+  name: String!
+
+  """Parent category ID"""
+  parentCategoryId: String
+}
+
+input CreateProductInput {
+  categoryId: String!
+  description: String!
+  images: [String]
+  name: String!
+  price: Float!
+}
+
+input CreateProductVariantInput {
+  """Product variant name"""
+  name: String!
+
+  """Product variant options"""
+  options: [CreateProductVariantOptionInput!]!
+
+  """Product variant price"""
+  price: Int
+
+  """Product variant productId"""
+  productId: String!
+
+  """Product variant stock"""
+  stock: Int! = 0
+}
+
+input CreateProductVariantOptionInput {
+  """Product variant option name"""
+  name: String!
+
+  """Product variant option values"""
+  values: [String!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ListMeta {
+  """Total number of records"""
+  total: Int!
+}
+
+type Mutation {
+  createCollection(createCollectionInput: CreateCollectionInput!): Collection
+  createProduct(createProductInput: CreateProductInput!): Product!
+  createProductCategory(createProductCategoryInput: CreateProductCategoryInput!): ProductCategory!
+  createProductVariant(createProductVariantInput: CreateProductVariantInput!): ProductVariant!
+  removeCollection(id: Int!): Collection!
+  removeProduct(id: ID!): Product!
+  removeProductCategory(id: ID!): ProductCategory!
+  removeProductVariant(id: Int!): ProductVariant!
+  updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
+  updateProduct(id: ID!, updateProductInput: UpdateProductInput!): Product!
+  updateProductCategory(id: ID!, updateProductCategoryInput: UpdateProductCategoryInput!): ProductCategory!
+  updateProductVariant(updateProductVariantInput: UpdateProductVariantInput!): ProductVariant!
+}
+
+type Product {
+  """Product category"""
+  category: ProductCategory
+
+  """Product category id"""
+  categoryId: ID!
+
+  """Product collections"""
+  collections: [Collection]
+
+  """Product createdAt"""
+  createdAt: DateTime!
+
+  """Product description"""
+  description: String!
+
+  """Product ID"""
+  id: ID!
+
+  """Product images"""
+  images: [String]!
+
+  """Product name"""
+  name: String!
+
+  """Product orderId"""
+  orderId: ID!
+
+  """Product price"""
+  price: Int!
+
+  """Product slug"""
+  slug: String!
+
+  """Product updatedAt"""
+  updatedAt: DateTime!
+
+  """Product variants"""
+  variants: [ProductVariant]
+}
+
+type ProductCategoriesList {
+  """List of product categories"""
+  data: [ProductCategory!]!
+}
+
+type ProductCategory {
+  """Category created at"""
+  createdAt: DateTime!
+
+  """Product category ID"""
+  id: ID!
+
+  """Product category name"""
+  name: String!
+
+  """Parent category ID"""
+  parentCategoryId: ID
+
+  """Products in this category"""
+  products: [Product]!
+
+  """Product category slug"""
+  slug: String
+
+  """Category updated at"""
+  updatedAt: DateTime!
+}
+
+type ProductList {
+  """List of products"""
+  data: [Product!]!
+
+  """List metadata"""
+  meta: ListMeta!
+}
+
+type ProductVariant {
+  """Product variant createdAt"""
+  createdAt: DateTime!
+
+  """Product variant ID"""
+  id: ID!
+
+  """Product variant name"""
+  name: String!
+
+  """Product variant options"""
+  options: [ProductVariantOption!]!
+
+  """Product variant price"""
+  price: Int
+
+  """Product variant product"""
+  product: Product!
+
+  """Product variant productId"""
+  productId: String!
+
+  """Product variant stock"""
+  stock: Int!
+
+  """Product variant updatedAt"""
+  updatedAt: DateTime!
+}
+
+type ProductVariantOption {
+  """Product variant option ID"""
+  id: ID!
+
+  """Product variant option name"""
+  name: String!
+
+  """Product variant option variantId"""
+  productVariantId: String!
+
+  """Product variant option values"""
+  values: [String!]!
+}
+
+type Query {
+  collection(id: ID, name: String, slug: String): Collection!
+  collections(skip: Int = 0, take: Int = 10): [Collection!]!
+  product(id: ID, name: String, slug: String): Product!
+  productById(id: ID!): Product!
+  productCategories(skip: Int = 0, take: Int = 10): ProductCategoriesList!
+  productCategory(id: ID, name: String, slug: String): ProductCategory!
+  productCategoryById(id: ID!): ProductCategory!
+  productVariant(id: Int!): ProductVariant!
+  productVariants: [ProductVariant!]!
+  products(skip: Int = 0, take: Int = 10): ProductList!
+  productsByCategorySlug(skip: Int = 0, slug: String!, take: Int = 10): ProductList!
+}
+
+input UpdateCollectionInput {
+  """Product collection cover image URL"""
+  coverImage: String
+
+  """Product collection description"""
+  description: String
+  id: Int!
+
+  """Product collection name"""
+  name: String
+
+  """Product IDs in the collection"""
+  productIds: [ID!]
+}
+
+input UpdateProductCategoryInput {
+  """Product category name"""
+  name: String
+
+  """Parent category ID"""
+  parentCategoryId: String
+}
+
+input UpdateProductInput {
+  categoryId: String
+  description: String
+  images: [String!]
+  name: String
+  price: Float
+}
+
+input UpdateProductVariantInput {
+  id: ID!
+
+  """Product variant name"""
+  name: String
+
+  """Product variant options"""
+  options: [CreateProductVariantOptionInput!]
+
+  """Product variant price"""
+  price: Int
+
+  """Product variant productId"""
+  productId: String
+
+  """Product variant stock"""
+  stock: Int = 0
+}
