@@ -1,48 +1,84 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { CreateProductCategoryInput } from './dto/create-product-category.input';
-import { UpdateProductCategoryInput } from './dto/update-product-category.input';
-import { Prisma } from '@prisma/client';
+import { Prisma, ProductCategory } from '@prisma/client';
+import { createSlug } from 'src/utils/createSlug';
 
 @Injectable()
 export class ProductCategoriesService {
-  constructor(private prisma: PrismaService) {}
+  private logger = new Logger('ProductCategoriesService');
 
-  createProductCategory(
-    createProductCategoryInput: CreateProductCategoryInput,
-  ) {
-    return 'This action adds a new productCategory';
-  }
+  constructor(@Inject(PrismaService) private prismaService: PrismaService) {}
 
-  getProductCategories(
-    skip?: number,
-    take?: number,
-    cursor?: Prisma.ProductCategoryWhereUniqueInput,
-    where?: Prisma.ProductCategoryWhereInput,
-    orderBy?: Prisma.ProductCategoryOrderByWithRelationInput,
-  ) {
-    return this.prisma.productCategory.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
+  async create(data: CreateProductCategoryInput): Promise<ProductCategory> {
+    const slug = createSlug(data.name);
+
+    return await this.prismaService.productCategory.create({
+      data: { slug, ...data },
     });
   }
 
-  getProductCategoryById(id: number) {
-    return `This action returns a #${id} productCategory`;
+  async findAll(params: {
+    take: number;
+    skip: number;
+    orderBy?: Prisma.ProductCategoryOrderByWithRelationInput;
+  }) {
+    const { skip, take, orderBy } = params;
+
+    const categories = await this.prismaService.productCategory.findMany({
+      take,
+      skip,
+      orderBy,
+      include: {
+        products: true,
+      },
+    });
+
+    return {
+      data: categories,
+    };
   }
 
-  updateProductCategory(
-    id: number,
-    updateProductCategoryInput: UpdateProductCategoryInput,
-  ) {
-    return `This action updates a #${id} productCategory`;
+  async findOne(params: {
+    id?: string;
+    name?: string;
+    slug?: string;
+  }): Promise<ProductCategory | null> {
+    const { id, name, slug } = params;
+
+    return this.prismaService.productCategory.findFirst({
+      where: {
+        id,
+        name,
+        slug,
+      },
+      include: {
+        products: true,
+      },
+    });
   }
 
-  removeProductCategory(id: number) {
-    return `This action removes a #${id} productCategory`;
+  async findOneById(
+    productCategoryWhereUniqueInput: Prisma.ProductCategoryWhereUniqueInput,
+  ): Promise<ProductCategory | null> {
+    return this.prismaService.productCategory.findUnique({
+      where: productCategoryWhereUniqueInput,
+    });
+  }
+
+  async update(params: {
+    where: Prisma.ProductCategoryWhereUniqueInput;
+    data: Prisma.ProductCategoryUpdateInput;
+  }): Promise<ProductCategory> {
+    const { where, data } = params;
+
+    return this.prismaService.productCategory.update({ data, where });
+  }
+
+  remove(
+    where: Prisma.ProductCategoryWhereUniqueInput,
+  ): Promise<ProductCategory> {
+    return this.prismaService.productCategory.delete({ where });
   }
 }

@@ -1,35 +1,80 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
+
 import { ProductCategoriesService } from './product-categories.service';
-import { ProductCategory } from './entities/product-category.entity';
+import {
+  ProductCategoriesList,
+  ProductCategory,
+} from './entities/product-category.entity';
 import { CreateProductCategoryInput } from './dto/create-product-category.input';
 import { UpdateProductCategoryInput } from './dto/update-product-category.input';
 
 @Resolver(() => ProductCategory)
 export class ProductCategoriesResolver {
-  constructor(private readonly productCategoriesService: ProductCategoriesService) {}
+  constructor(
+    private readonly productCategoriesService: ProductCategoriesService,
+  ) {}
 
   @Mutation(() => ProductCategory)
-  createProductCategory(@Args('createProductCategoryInput') createProductCategoryInput: CreateProductCategoryInput) {
-    return this.productCategoriesService.create(createProductCategoryInput);
+  async createProductCategory(
+    @Args('createProductCategoryInput')
+    createProductCategoryInput: CreateProductCategoryInput,
+  ) {
+    return await this.productCategoriesService.create(
+      createProductCategoryInput,
+    );
   }
 
-  @Query(() => [ProductCategory], { name: 'productCategories' })
-  findAll() {
-    return this.productCategoriesService.findAll();
+  @Query(() => ProductCategoriesList, { name: 'productCategories' })
+  async getProductCategories(
+    @Args('take', {
+      defaultValue: 10,
+      type: () => Int,
+      nullable: true,
+      name: 'Take',
+    })
+    take?: number,
+    @Args('skip', {
+      defaultValue: 0,
+      type: () => Int,
+      nullable: true,
+      name: 'Skip',
+    })
+    skip?: number,
+  ) {
+    return this.productCategoriesService.findAll({ skip, take });
   }
 
   @Query(() => ProductCategory, { name: 'productCategory' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.productCategoriesService.findOne(id);
+  async getProductCategory(
+    @Args('id', { type: () => ID, nullable: true, name: 'ID' })
+    id?: string,
+    @Args('name', { nullable: true, name: 'Name' })
+    name?: string,
+    @Args('slug', { nullable: true, name: 'Slug' })
+    slug?: string,
+  ) {
+    return this.productCategoriesService.findOne({ id, name, slug });
+  }
+
+  @Query(() => ProductCategory, { name: 'productCategoryById' })
+  async getProductCategoryById(@Args('id', { type: () => ID }) id: string) {
+    return await this.productCategoriesService.findOneById({ id });
   }
 
   @Mutation(() => ProductCategory)
-  updateProductCategory(@Args('updateProductCategoryInput') updateProductCategoryInput: UpdateProductCategoryInput) {
-    return this.productCategoriesService.update(updateProductCategoryInput.id, updateProductCategoryInput);
+  async updateProductCategory(
+    @Args('id', { type: () => ID }) id: string,
+    @Args('updateProductCategoryInput')
+    updateProductCategoryInput: UpdateProductCategoryInput,
+  ) {
+    return this.productCategoriesService.update({
+      where: { id },
+      data: updateProductCategoryInput,
+    });
   }
 
   @Mutation(() => ProductCategory)
-  removeProductCategory(@Args('id', { type: () => Int }) id: number) {
-    return this.productCategoriesService.remove(id);
+  async removeProductCategory(@Args('id', { type: () => ID }) id: string) {
+    return this.productCategoriesService.remove({ id });
   }
 }
