@@ -159,8 +159,38 @@ export class ProductsService {
     });
   }
 
-  async findAllByQuery(query: string): Promise<Product[]> {
-    return await this.prismaService.product.findMany({
+  async findAllByQuery(params: {
+    take: number;
+    skip: number;
+    query: string;
+  }): Promise<ProductList> {
+    const { take, skip, query } = params;
+
+    const products = await this.prismaService.product.findMany({
+      take,
+      skip,
+      where: {
+        OR: [
+          {
+            name: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+          {
+            description: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+      include: {
+        category: true,
+      },
+    });
+
+    const total = await this.prismaService.product.count({
       where: {
         OR: [
           {
@@ -178,6 +208,11 @@ export class ProductsService {
         ],
       },
     });
+
+    return {
+      data: products,
+      meta: { total },
+    };
   }
 
   async update(params: {

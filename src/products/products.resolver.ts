@@ -75,6 +75,31 @@ export class ProductsResolver {
     });
   }
 
+  @Query(() => ProductList, { name: 'productsByQuery' })
+  async getProductsByQuery(
+    @Args('query', { type: () => String }) query: string,
+    @Args('take', {
+      defaultValue: 10,
+      type: () => Int,
+      nullable: true,
+      name: 'Take',
+    })
+    take?: number,
+    @Args('skip', {
+      defaultValue: 0,
+      type: () => Int,
+      nullable: true,
+      name: 'Skip',
+    })
+    skip?: number,
+  ) {
+    return await this.productsService.findAllByQuery({
+      query,
+      take,
+      skip,
+    });
+  }
+
   @Query(() => Product, { name: 'productById' })
   async getProductById(@Args('id', { type: () => ID }) id: string) {
     return this.productsService.findOneById({ id });
