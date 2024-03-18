@@ -6,10 +6,6 @@ const prisma = new PrismaClient();
 const seedCategories = async () => {
   const categories = [
     {
-      id: '2de6d922-1d10-4f09-bd96-93e8f51eea72',
-      name: 'All',
-    },
-    {
       id: '2de6d922-1d10-4f09-bd96-93e8f51eea71',
       name: 'Wheels',
     },
