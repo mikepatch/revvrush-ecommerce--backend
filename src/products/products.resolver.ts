@@ -1,3 +1,4 @@
+import { ProductWhereInput } from './../@generated/product/product-where.input';
 import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
 
 import { ProductsService } from './products.service';
@@ -5,6 +6,7 @@ import { Product, ProductList } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -34,8 +36,14 @@ export class ProductsResolver {
       name: 'Skip',
     })
     skip?: number,
+    @Args({
+      name: 'where',
+      type: () => ProductWhereInput,
+      nullable: true,
+    })
+    where?: Prisma.ProductWhereInput,
   ) {
-    return await this.productsService.findAll({ skip, take });
+    return await this.productsService.findAll({ skip, take, where });
   }
 
   @Query(() => Product, { name: 'product' })

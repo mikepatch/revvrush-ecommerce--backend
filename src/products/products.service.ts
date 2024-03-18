@@ -29,13 +29,15 @@ export class ProductsService {
     take: number;
     skip: number;
     orderBy?: Prisma.ProductOrderByWithRelationInput;
+    where?: Prisma.ProductWhereInput;
   }): Promise<ProductList> {
-    const { skip, take, orderBy } = params;
+    const { skip, take, orderBy, where } = params;
 
     const products = await this.prismaService.product.findMany({
       take,
       skip,
       orderBy,
+      where,
       include: {
         category: {
           include: {
@@ -50,7 +52,7 @@ export class ProductsService {
         collections: true,
       },
     });
-    const total = await this.prismaService.product.count();
+    const total = await this.prismaService.product.count({ where });
 
     return {
       data: products,
@@ -85,32 +87,6 @@ export class ProductsService {
     skip: number;
   }): Promise<ProductList> {
     const { categorySlug, skip, take } = params;
-
-    if (categorySlug === 'all') {
-      const products = await this.prismaService.product.findMany({
-        take,
-        skip,
-        include: {
-          category: {
-            include: {
-              products: {
-                include: {
-                  category: true,
-                  collections: true,
-                },
-              },
-            },
-          },
-          collections: true,
-        },
-      });
-      const total = await this.prismaService.product.count();
-
-      return {
-        data: products,
-        meta: { total },
-      };
-    }
 
     const products = await this.prismaService.product.findMany({
       take,
