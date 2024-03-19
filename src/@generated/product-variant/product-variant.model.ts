@@ -1,6 +1,5 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { ID } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { Product } from '../product/product.model';
 import { ProductVariantOption } from '../product-variant-option/product-variant-option.model';
@@ -9,7 +8,7 @@ import { ProductVariantCount } from './product-variant-count.output';
 @ObjectType()
 export class ProductVariant {
 
-    @Field(() => ID, {nullable:false})
+    @Field(() => String, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})

@@ -1,6 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
+import { IntFilter } from '../prisma/int-filter.input';
+import { EnumOrderStatusFilter } from '../prisma/enum-order-status-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
 @InputType()
@@ -20,6 +22,12 @@ export class OrderScalarWhereInput {
 
     @Field(() => StringFilter, {nullable:true})
     userId?: StringFilter;
+
+    @Field(() => IntFilter, {nullable:true})
+    totalAmount?: IntFilter;
+
+    @Field(() => EnumOrderStatusFilter, {nullable:true})
+    status?: EnumOrderStatusFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: DateTimeFilter;

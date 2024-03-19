@@ -124,6 +124,13 @@ input DateTimeFilter {
   notIn: [DateTime!]
 }
 
+input EnumOrderStatusFilter {
+  equals: OrderStatus
+  in: [OrderStatus!]
+  not: NestedEnumOrderStatusFilter
+  notIn: [OrderStatus!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -178,6 +185,13 @@ input NestedDateTimeFilter {
   lte: DateTime
   not: NestedDateTimeFilter
   notIn: [DateTime!]
+}
+
+input NestedEnumOrderStatusFilter {
+  equals: OrderStatus
+  in: [OrderStatus!]
+  not: NestedEnumOrderStatusFilter
+  notIn: [OrderStatus!]
 }
 
 input NestedIntFilter {
@@ -246,6 +260,13 @@ input OrderNullableRelationFilter {
   isNot: OrderWhereInput
 }
 
+enum OrderStatus {
+  CANCELLED
+  COMPLETED
+  CREATED
+  PAID
+}
+
 input OrderWhereInput {
   AND: [OrderWhereInput!]
   NOT: [OrderWhereInput!]
@@ -253,6 +274,8 @@ input OrderWhereInput {
   createdAt: DateTimeFilter
   id: StringFilter
   products: ProductListRelationFilter
+  status: EnumOrderStatusFilter
+  totalAmount: IntFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter

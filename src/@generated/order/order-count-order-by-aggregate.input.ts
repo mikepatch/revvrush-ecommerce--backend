@@ -12,6 +12,12 @@ export class OrderCountOrderByAggregateInput {
     userId?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    totalAmount?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    status?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

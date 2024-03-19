@@ -8,8 +8,7 @@ generator nestgraphql {
   fields_Validator_from                 = "class-validator"
   fields_Validator_input                = true
   requireSingleFieldsInWhereUniqueInput = true
-  emitSingle                            = true
-  emitCompiled                          = true
+  emitCompiled                          = false
   purgeOutput                           = true
   noTypeId                              = true
 }

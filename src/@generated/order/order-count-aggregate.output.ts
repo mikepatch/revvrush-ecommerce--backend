@@ -12,6 +12,12 @@ export class OrderCountAggregate {
     userId!: number;
 
     @Field(() => Int, {nullable:false})
+    totalAmount!: number;
+
+    @Field(() => Int, {nullable:false})
+    status!: number;
+
+    @Field(() => Int, {nullable:false})
     createdAt!: number;
 
     @Field(() => Int, {nullable:false})

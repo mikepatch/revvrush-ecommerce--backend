@@ -7,6 +7,8 @@ import { Prisma } from '@prisma/client';
 import { OrderWhereUniqueInput } from './order-where-unique.input';
 import { Int } from '@nestjs/graphql';
 import { OrderCountAggregateInput } from './order-count-aggregate.input';
+import { OrderAvgAggregateInput } from './order-avg-aggregate.input';
+import { OrderSumAggregateInput } from './order-sum-aggregate.input';
 import { OrderMinAggregateInput } from './order-min-aggregate.input';
 import { OrderMaxAggregateInput } from './order-max-aggregate.input';
 
@@ -31,6 +33,12 @@ export class OrderAggregateArgs {
 
     @Field(() => OrderCountAggregateInput, {nullable:true})
     _count?: OrderCountAggregateInput;
+
+    @Field(() => OrderAvgAggregateInput, {nullable:true})
+    _avg?: OrderAvgAggregateInput;
+
+    @Field(() => OrderSumAggregateInput, {nullable:true})
+    _sum?: OrderSumAggregateInput;
 
     @Field(() => OrderMinAggregateInput, {nullable:true})
     _min?: OrderMinAggregateInput;

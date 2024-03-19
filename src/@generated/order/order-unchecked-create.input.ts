@@ -1,5 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { Int } from '@nestjs/graphql';
+import { OrderStatus } from '../prisma/order-status.enum';
 import { ProductUncheckedCreateNestedManyWithoutOrderInput } from '../product/product-unchecked-create-nested-many-without-order.input';
 
 @InputType()
@@ -10,6 +12,12 @@ export class OrderUncheckedCreateInput {
 
     @Field(() => String, {nullable:false})
     userId!: string;
+
+    @Field(() => Int, {nullable:false})
+    totalAmount!: number;
+
+    @Field(() => OrderStatus, {nullable:false})
+    status!: keyof typeof OrderStatus;
 
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;

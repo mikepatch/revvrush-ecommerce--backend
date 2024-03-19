@@ -7,6 +7,8 @@ import { OrderScalarFieldEnum } from './order-scalar-field.enum';
 import { OrderScalarWhereWithAggregatesInput } from './order-scalar-where-with-aggregates.input';
 import { Int } from '@nestjs/graphql';
 import { OrderCountAggregateInput } from './order-count-aggregate.input';
+import { OrderAvgAggregateInput } from './order-avg-aggregate.input';
+import { OrderSumAggregateInput } from './order-sum-aggregate.input';
 import { OrderMinAggregateInput } from './order-min-aggregate.input';
 import { OrderMaxAggregateInput } from './order-max-aggregate.input';
 
@@ -34,6 +36,12 @@ export class OrderGroupByArgs {
 
     @Field(() => OrderCountAggregateInput, {nullable:true})
     _count?: OrderCountAggregateInput;
+
+    @Field(() => OrderAvgAggregateInput, {nullable:true})
+    _avg?: OrderAvgAggregateInput;
+
+    @Field(() => OrderSumAggregateInput, {nullable:true})
+    _sum?: OrderSumAggregateInput;
 
     @Field(() => OrderMinAggregateInput, {nullable:true})
     _min?: OrderMinAggregateInput;

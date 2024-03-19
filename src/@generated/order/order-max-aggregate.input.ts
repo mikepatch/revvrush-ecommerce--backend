@@ -11,6 +11,12 @@ export class OrderMaxAggregateInput {
     userId?: true;
 
     @Field(() => Boolean, {nullable:true})
+    totalAmount?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    status?: true;
+
+    @Field(() => Boolean, {nullable:true})
     createdAt?: true;
 
     @Field(() => Boolean, {nullable:true})

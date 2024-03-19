@@ -1,13 +1,12 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { ID } from '@nestjs/graphql';
 import { Order } from '../order/order.model';
 import { UserCount } from './user-count.output';
 
 @ObjectType()
 export class User {
 
-    @Field(() => ID, {nullable:false})
+    @Field(() => String, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})
