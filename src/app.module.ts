@@ -11,6 +11,7 @@ import { ProductCategoriesModule } from './product-categories/product-categories
 import { ProductsModule } from './products/products.module';
 import { CollectionsModule } from 'src/collections/collections.module';
 import { ProductVariantsModule } from './product-variants/product-variants.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ProductVariantsModule } from './product-variants/product-variants.modul
     ProductsModule,
     CollectionsModule,
     ProductVariantsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

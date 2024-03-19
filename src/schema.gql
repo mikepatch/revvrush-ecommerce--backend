@@ -61,6 +61,11 @@ input CreateCollectionInput {
   productIds: [ID!]!
 }
 
+input CreateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 """New product category input"""
 input CreateProductCategoryInput {
   """Product category name"""
@@ -148,14 +153,17 @@ type ListMeta {
 
 type Mutation {
   createCollection(createCollectionInput: CreateCollectionInput!): Collection
+  createOrder(createOrderInput: CreateOrderInput!): Order!
   createProduct(createProductInput: CreateProductInput!): Product!
   createProductCategory(createProductCategoryInput: CreateProductCategoryInput!): ProductCategory!
   createProductVariant(createProductVariantInput: CreateProductVariantInput!): ProductVariant!
   removeCollection(id: Int!): Collection!
+  removeOrder(id: Int!): Order!
   removeProduct(id: ID!): Product!
   removeProductCategory(id: ID!): ProductCategory!
   removeProductVariant(id: Int!): ProductVariant!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
+  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(id: ID!, updateProductInput: UpdateProductInput!): Product!
   updateProductCategory(id: ID!, updateProductCategoryInput: UpdateProductCategoryInput!): ProductCategory!
   updateProductVariant(updateProductVariantInput: UpdateProductVariantInput!): ProductVariant!
@@ -220,6 +228,11 @@ input NestedStringNullableFilter {
   not: NestedStringNullableFilter
   notIn: [String!]
   startsWith: String
+}
+
+type Order {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 input OrderListRelationFilter {
@@ -475,6 +488,8 @@ input ProductWhereInput {
 type Query {
   collection(id: ID, name: String, slug: String): Collection!
   collections(skip: Int = 0, take: Int = 10): [Collection!]!
+  order(id: Int!): Order!
+  orders: [Order!]!
   product(id: ID, name: String, slug: String): Product!
   productById(id: ID!): Product!
   productCategories(skip: Int = 0, take: Int = 10): ProductCategoriesList!
@@ -543,6 +558,12 @@ input UpdateCollectionInput {
 
   """Product IDs in the collection"""
   productIds: [ID!]
+}
+
+input UpdateOrderInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateProductCategoryInput {
