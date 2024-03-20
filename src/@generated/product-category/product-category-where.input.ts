@@ -4,7 +4,6 @@ import { StringFilter } from '../prisma/string-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { ProductListRelationFilter } from '../product/product-list-relation-filter.input';
-import { ProductCategoryNullableRelationFilter } from './product-category-nullable-relation-filter.input';
 import { ProductCategoryListRelationFilter } from './product-category-list-relation-filter.input';
 
 @InputType()
@@ -40,8 +39,8 @@ export class ProductCategoryWhereInput {
     @Field(() => ProductListRelationFilter, {nullable:true})
     products?: ProductListRelationFilter;
 
-    @Field(() => ProductCategoryNullableRelationFilter, {nullable:true})
-    parentCategory?: ProductCategoryNullableRelationFilter;
+    @Field(() => ProductCategoryWhereInput, {nullable:true})
+    parentCategory?: ProductCategoryWhereInput;
 
     @Field(() => ProductCategoryListRelationFilter, {nullable:true})
     subCategories?: ProductCategoryListRelationFilter;

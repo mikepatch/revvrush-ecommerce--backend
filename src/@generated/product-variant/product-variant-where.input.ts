@@ -4,7 +4,7 @@ import { StringFilter } from '../prisma/string-filter.input';
 import { IntFilter } from '../prisma/int-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
-import { ProductRelationFilter } from '../product/product-relation-filter.input';
+import { ProductWhereInput } from '../product/product-where.input';
 import { ProductVariantOptionListRelationFilter } from '../product-variant-option/product-variant-option-list-relation-filter.input';
 
 @InputType()
@@ -40,8 +40,8 @@ export class ProductVariantWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: DateTimeFilter;
 
-    @Field(() => ProductRelationFilter, {nullable:true})
-    product?: ProductRelationFilter;
+    @Field(() => ProductWhereInput, {nullable:true})
+    product?: ProductWhereInput;
 
     @Field(() => ProductVariantOptionListRelationFilter, {nullable:true})
     options?: ProductVariantOptionListRelationFilter;

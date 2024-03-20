@@ -3,7 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
 import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
-import { ProductVariantRelationFilter } from '../product-variant/product-variant-relation-filter.input';
+import { ProductVariantWhereInput } from '../product-variant/product-variant-where.input';
 
 @InputType()
 export class ProductVariantOptionWhereInput {
@@ -35,6 +35,6 @@ export class ProductVariantOptionWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: DateTimeFilter;
 
-    @Field(() => ProductVariantRelationFilter, {nullable:true})
-    productVariant?: ProductVariantRelationFilter;
+    @Field(() => ProductVariantWhereInput, {nullable:true})
+    productVariant?: ProductVariantWhereInput;
 }

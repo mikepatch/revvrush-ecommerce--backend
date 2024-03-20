@@ -10,4 +10,10 @@ export class ProductCount {
 
     @Field(() => Int, {nullable:false})
     collections?: number;
+
+    @Field(() => Int, {nullable:false})
+    cartItem?: number;
+
+    @Field(() => Int, {nullable:false})
+    orderItem?: number;
 }

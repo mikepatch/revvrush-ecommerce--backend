@@ -7,9 +7,10 @@ import { StringNullableListFilter } from '../prisma/string-nullable-list-filter.
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { ProductCategoryRelationFilter } from '../product-category/product-category-relation-filter.input';
-import { OrderNullableRelationFilter } from '../order/order-nullable-relation-filter.input';
 import { ProductVariantListRelationFilter } from '../product-variant/product-variant-list-relation-filter.input';
 import { CollectionListRelationFilter } from '../collection/collection-list-relation-filter.input';
+import { CartItemListRelationFilter } from '../cart-item/cart-item-list-relation-filter.input';
+import { OrderItemListRelationFilter } from '../order-item/order-item-list-relation-filter.input';
 
 @InputType()
 export class ProductWhereUniqueInput {
@@ -56,12 +57,15 @@ export class ProductWhereUniqueInput {
     @Field(() => ProductCategoryRelationFilter, {nullable:true})
     category?: ProductCategoryRelationFilter;
 
-    @Field(() => OrderNullableRelationFilter, {nullable:true})
-    Order?: OrderNullableRelationFilter;
-
     @Field(() => ProductVariantListRelationFilter, {nullable:true})
     variants?: ProductVariantListRelationFilter;
 
     @Field(() => CollectionListRelationFilter, {nullable:true})
     collections?: CollectionListRelationFilter;
+
+    @Field(() => CartItemListRelationFilter, {nullable:true})
+    cartItem?: CartItemListRelationFilter;
+
+    @Field(() => OrderItemListRelationFilter, {nullable:true})
+    orderItem?: OrderItemListRelationFilter;
 }

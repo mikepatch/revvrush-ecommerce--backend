@@ -1,21 +1,22 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
+import { ID } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { OrderStatus } from '../prisma/order-status.enum';
+import { OrderItem } from '../order-item/order-item.model';
 import { User } from '../user/user.model';
-import { Product } from '../product/product.model';
 import { OrderCount } from './order-count.output';
 
 @ObjectType()
 export class Order {
 
-    @Field(() => String, {nullable:false})
+    @Field(() => ID, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})
     userId!: string;
 
-    @Field(() => Int, {nullable:false})
+    @Field(() => Float, {nullable:false})
     totalAmount!: number;
 
     @Field(() => OrderStatus, {nullable:false})
@@ -27,11 +28,11 @@ export class Order {
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
 
+    @Field(() => [OrderItem], {nullable:true})
+    items?: Array<OrderItem>;
+
     @Field(() => User, {nullable:false})
     user?: User;
-
-    @Field(() => [Product], {nullable:true})
-    products?: Array<Product>;
 
     @Field(() => OrderCount, {nullable:false})
     _count?: OrderCount;

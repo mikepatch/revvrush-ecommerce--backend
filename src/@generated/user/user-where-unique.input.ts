@@ -4,6 +4,7 @@ import { UserWhereInput } from './user-where.input';
 import { StringFilter } from '../prisma/string-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { OrderListRelationFilter } from '../order/order-list-relation-filter.input';
+import { CartListRelationFilter } from '../cart/cart-list-relation-filter.input';
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -40,4 +41,7 @@ export class UserWhereUniqueInput {
 
     @Field(() => OrderListRelationFilter, {nullable:true})
     orders?: OrderListRelationFilter;
+
+    @Field(() => CartListRelationFilter, {nullable:true})
+    cart?: CartListRelationFilter;
 }

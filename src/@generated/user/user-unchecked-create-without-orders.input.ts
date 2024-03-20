@@ -1,5 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { CartUncheckedCreateNestedManyWithoutUserInput } from '../cart/cart-unchecked-create-nested-many-without-user.input';
 
 @InputType()
 export class UserUncheckedCreateWithoutOrdersInput {
@@ -24,4 +25,7 @@ export class UserUncheckedCreateWithoutOrdersInput {
 
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+
+    @Field(() => CartUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    cart?: CartUncheckedCreateNestedManyWithoutUserInput;
 }

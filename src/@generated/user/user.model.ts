@@ -1,12 +1,14 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
+import { ID } from '@nestjs/graphql';
 import { Order } from '../order/order.model';
+import { Cart } from '../cart/cart.model';
 import { UserCount } from './user-count.output';
 
 @ObjectType()
 export class User {
 
-    @Field(() => String, {nullable:false})
+    @Field(() => ID, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})
@@ -29,6 +31,9 @@ export class User {
 
     @Field(() => [Order], {nullable:true})
     orders?: Array<Order>;
+
+    @Field(() => [Cart], {nullable:true})
+    cart?: Array<Cart>;
 
     @Field(() => UserCount, {nullable:false})
     _count?: UserCount;

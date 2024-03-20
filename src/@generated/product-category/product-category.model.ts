@@ -1,12 +1,13 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
+import { ID } from '@nestjs/graphql';
 import { Product } from '../product/product.model';
 import { ProductCategoryCount } from './product-category-count.output';
 
 @ObjectType()
 export class ProductCategory {
 
-    @Field(() => String, {nullable:false})
+    @Field(() => ID, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})

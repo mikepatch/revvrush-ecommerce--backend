@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { StringFilter } from '../prisma/string-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { OrderListRelationFilter } from '../order/order-list-relation-filter.input';
+import { CartListRelationFilter } from '../cart/cart-list-relation-filter.input';
 
 @InputType()
 export class UserWhereInput {
@@ -39,4 +40,7 @@ export class UserWhereInput {
 
     @Field(() => OrderListRelationFilter, {nullable:true})
     orders?: OrderListRelationFilter;
+
+    @Field(() => CartListRelationFilter, {nullable:true})
+    cart?: CartListRelationFilter;
 }

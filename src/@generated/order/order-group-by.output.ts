@@ -1,6 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { OrderStatus } from '../prisma/order-status.enum';
 import { OrderCountAggregate } from './order-count-aggregate.output';
 import { OrderAvgAggregate } from './order-avg-aggregate.output';
@@ -17,7 +17,7 @@ export class OrderGroupBy {
     @Field(() => String, {nullable:false})
     userId!: string;
 
-    @Field(() => Int, {nullable:false})
+    @Field(() => Float, {nullable:false})
     totalAmount!: number;
 
     @Field(() => OrderStatus, {nullable:false})

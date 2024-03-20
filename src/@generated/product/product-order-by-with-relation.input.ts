@@ -3,9 +3,10 @@ import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
 import { ProductCategoryOrderByWithRelationInput } from '../product-category/product-category-order-by-with-relation.input';
-import { OrderOrderByWithRelationInput } from '../order/order-order-by-with-relation.input';
 import { ProductVariantOrderByRelationAggregateInput } from '../product-variant/product-variant-order-by-relation-aggregate.input';
 import { CollectionOrderByRelationAggregateInput } from '../collection/collection-order-by-relation-aggregate.input';
+import { CartItemOrderByRelationAggregateInput } from '../cart-item/cart-item-order-by-relation-aggregate.input';
+import { OrderItemOrderByRelationAggregateInput } from '../order-item/order-item-order-by-relation-aggregate.input';
 
 @InputType()
 export class ProductOrderByWithRelationInput {
@@ -43,12 +44,15 @@ export class ProductOrderByWithRelationInput {
     @Field(() => ProductCategoryOrderByWithRelationInput, {nullable:true})
     category?: ProductCategoryOrderByWithRelationInput;
 
-    @Field(() => OrderOrderByWithRelationInput, {nullable:true})
-    Order?: OrderOrderByWithRelationInput;
-
     @Field(() => ProductVariantOrderByRelationAggregateInput, {nullable:true})
     variants?: ProductVariantOrderByRelationAggregateInput;
 
     @Field(() => CollectionOrderByRelationAggregateInput, {nullable:true})
     collections?: CollectionOrderByRelationAggregateInput;
+
+    @Field(() => CartItemOrderByRelationAggregateInput, {nullable:true})
+    cartItem?: CartItemOrderByRelationAggregateInput;
+
+    @Field(() => OrderItemOrderByRelationAggregateInput, {nullable:true})
+    orderItem?: OrderItemOrderByRelationAggregateInput;
 }

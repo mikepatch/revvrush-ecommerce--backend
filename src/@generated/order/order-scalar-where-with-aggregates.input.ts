@@ -1,7 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { StringWithAggregatesFilter } from '../prisma/string-with-aggregates-filter.input';
-import { IntWithAggregatesFilter } from '../prisma/int-with-aggregates-filter.input';
+import { FloatWithAggregatesFilter } from '../prisma/float-with-aggregates-filter.input';
 import { EnumOrderStatusWithAggregatesFilter } from '../prisma/enum-order-status-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 
@@ -23,8 +23,8 @@ export class OrderScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userId?: StringWithAggregatesFilter;
 
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    totalAmount?: IntWithAggregatesFilter;
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    totalAmount?: FloatWithAggregatesFilter;
 
     @Field(() => EnumOrderStatusWithAggregatesFilter, {nullable:true})
     status?: EnumOrderStatusWithAggregatesFilter;

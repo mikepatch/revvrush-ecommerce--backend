@@ -1,8 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { Int } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { OrderStatus } from '../prisma/order-status.enum';
-import { ProductCreateNestedManyWithoutOrderInput } from '../product/product-create-nested-many-without-order.input';
+import { OrderItemCreateNestedManyWithoutOrderInput } from '../order-item/order-item-create-nested-many-without-order.input';
 
 @InputType()
 export class OrderCreateWithoutUserInput {
@@ -10,7 +10,7 @@ export class OrderCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
 
-    @Field(() => Int, {nullable:false})
+    @Field(() => Float, {nullable:false})
     totalAmount!: number;
 
     @Field(() => OrderStatus, {nullable:false})
@@ -22,6 +22,6 @@ export class OrderCreateWithoutUserInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
 
-    @Field(() => ProductCreateNestedManyWithoutOrderInput, {nullable:true})
-    products?: ProductCreateNestedManyWithoutOrderInput;
+    @Field(() => OrderItemCreateNestedManyWithoutOrderInput, {nullable:true})
+    items?: OrderItemCreateNestedManyWithoutOrderInput;
 }

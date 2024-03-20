@@ -2,11 +2,11 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { OrderWhereInput } from './order-where.input';
 import { StringFilter } from '../prisma/string-filter.input';
-import { IntFilter } from '../prisma/int-filter.input';
+import { FloatFilter } from '../prisma/float-filter.input';
 import { EnumOrderStatusFilter } from '../prisma/enum-order-status-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
+import { OrderItemListRelationFilter } from '../order-item/order-item-list-relation-filter.input';
 import { UserRelationFilter } from '../user/user-relation-filter.input';
-import { ProductListRelationFilter } from '../product/product-list-relation-filter.input';
 
 @InputType()
 export class OrderWhereUniqueInput {
@@ -26,8 +26,8 @@ export class OrderWhereUniqueInput {
     @Field(() => StringFilter, {nullable:true})
     userId?: StringFilter;
 
-    @Field(() => IntFilter, {nullable:true})
-    totalAmount?: IntFilter;
+    @Field(() => FloatFilter, {nullable:true})
+    totalAmount?: FloatFilter;
 
     @Field(() => EnumOrderStatusFilter, {nullable:true})
     status?: EnumOrderStatusFilter;
@@ -38,9 +38,9 @@ export class OrderWhereUniqueInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: DateTimeFilter;
 
+    @Field(() => OrderItemListRelationFilter, {nullable:true})
+    items?: OrderItemListRelationFilter;
+
     @Field(() => UserRelationFilter, {nullable:true})
     user?: UserRelationFilter;
-
-    @Field(() => ProductListRelationFilter, {nullable:true})
-    products?: ProductListRelationFilter;
 }

@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { OrderUncheckedUpdateManyWithoutUserNestedInput } from '../order/order-unchecked-update-many-without-user-nested.input';
+import { CartUncheckedUpdateManyWithoutUserNestedInput } from '../cart/cart-unchecked-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUncheckedUpdateInput {
@@ -30,4 +31,7 @@ export class UserUncheckedUpdateInput {
 
     @Field(() => OrderUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput;
+
+    @Field(() => CartUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    cart?: CartUncheckedUpdateManyWithoutUserNestedInput;
 }

@@ -6,9 +6,10 @@ import { ProductUpdateimagesInput } from './product-updateimages.input';
 import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { ProductCategoryUpdateOneRequiredWithoutProductsNestedInput } from '../product-category/product-category-update-one-required-without-products-nested.input';
-import { OrderUpdateOneWithoutProductsNestedInput } from '../order/order-update-one-without-products-nested.input';
 import { ProductVariantUpdateManyWithoutProductNestedInput } from '../product-variant/product-variant-update-many-without-product-nested.input';
 import { CollectionUpdateManyWithoutProductsNestedInput } from '../collection/collection-update-many-without-products-nested.input';
+import { CartItemUpdateManyWithoutProductNestedInput } from '../cart-item/cart-item-update-many-without-product-nested.input';
+import { OrderItemUpdateManyWithoutProductNestedInput } from '../order-item/order-item-update-many-without-product-nested.input';
 
 @InputType()
 export class ProductUpdateInput {
@@ -31,6 +32,9 @@ export class ProductUpdateInput {
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: NullableStringFieldUpdateOperationsInput;
 
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    orderId?: NullableStringFieldUpdateOperationsInput;
+
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: DateTimeFieldUpdateOperationsInput;
 
@@ -40,12 +44,15 @@ export class ProductUpdateInput {
     @Field(() => ProductCategoryUpdateOneRequiredWithoutProductsNestedInput, {nullable:true})
     category?: ProductCategoryUpdateOneRequiredWithoutProductsNestedInput;
 
-    @Field(() => OrderUpdateOneWithoutProductsNestedInput, {nullable:true})
-    Order?: OrderUpdateOneWithoutProductsNestedInput;
-
     @Field(() => ProductVariantUpdateManyWithoutProductNestedInput, {nullable:true})
     variants?: ProductVariantUpdateManyWithoutProductNestedInput;
 
     @Field(() => CollectionUpdateManyWithoutProductsNestedInput, {nullable:true})
     collections?: CollectionUpdateManyWithoutProductsNestedInput;
+
+    @Field(() => CartItemUpdateManyWithoutProductNestedInput, {nullable:true})
+    cartItem?: CartItemUpdateManyWithoutProductNestedInput;
+
+    @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
+    orderItem?: OrderItemUpdateManyWithoutProductNestedInput;
 }

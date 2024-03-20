@@ -7,4 +7,7 @@ export class UserCount {
 
     @Field(() => Int, {nullable:false})
     orders?: number;
+
+    @Field(() => Int, {nullable:false})
+    cart?: number;
 }

@@ -3,6 +3,8 @@ import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { ProductCreateimagesInput } from './product-createimages.input';
 import { ProductVariantUncheckedCreateNestedManyWithoutProductInput } from '../product-variant/product-variant-unchecked-create-nested-many-without-product.input';
+import { CartItemUncheckedCreateNestedManyWithoutProductInput } from '../cart-item/cart-item-unchecked-create-nested-many-without-product.input';
+import { OrderItemUncheckedCreateNestedManyWithoutProductInput } from '../order-item/order-item-unchecked-create-nested-many-without-product.input';
 
 @InputType()
 export class ProductUncheckedCreateWithoutCollectionsInput {
@@ -39,4 +41,10 @@ export class ProductUncheckedCreateWithoutCollectionsInput {
 
     @Field(() => ProductVariantUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput;
+
+    @Field(() => CartItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    cartItem?: CartItemUncheckedCreateNestedManyWithoutProductInput;
+
+    @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    orderItem?: OrderItemUncheckedCreateNestedManyWithoutProductInput;
 }

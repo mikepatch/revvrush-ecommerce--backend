@@ -1,16 +1,18 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
+import { ID } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { ProductCategory } from '../product-category/product-category.model';
-import { Order } from '../order/order.model';
 import { ProductVariant } from '../product-variant/product-variant.model';
 import { Collection } from '../collection/collection.model';
+import { CartItem } from '../cart-item/cart-item.model';
+import { OrderItem } from '../order-item/order-item.model';
 import { ProductCount } from './product-count.output';
 
 @ObjectType()
 export class Product {
 
-    @Field(() => String, {nullable:false})
+    @Field(() => ID, {nullable:false})
     id!: string;
 
     @Field(() => String, {nullable:false})
@@ -43,14 +45,17 @@ export class Product {
     @Field(() => ProductCategory, {nullable:false})
     category?: ProductCategory;
 
-    @Field(() => Order, {nullable:true})
-    Order?: Order | null;
-
     @Field(() => [ProductVariant], {nullable:true})
     variants?: Array<ProductVariant>;
 
     @Field(() => [Collection], {nullable:true})
     collections?: Array<Collection>;
+
+    @Field(() => [CartItem], {nullable:true})
+    cartItem?: Array<CartItem>;
+
+    @Field(() => [OrderItem], {nullable:true})
+    orderItem?: Array<OrderItem>;
 
     @Field(() => ProductCount, {nullable:false})
     _count?: ProductCount;

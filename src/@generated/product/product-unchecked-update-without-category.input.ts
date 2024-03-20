@@ -7,6 +7,8 @@ import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-str
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { ProductVariantUncheckedUpdateManyWithoutProductNestedInput } from '../product-variant/product-variant-unchecked-update-many-without-product-nested.input';
 import { CollectionUncheckedUpdateManyWithoutProductsNestedInput } from '../collection/collection-unchecked-update-many-without-products-nested.input';
+import { CartItemUncheckedUpdateManyWithoutProductNestedInput } from '../cart-item/cart-item-unchecked-update-many-without-product-nested.input';
+import { OrderItemUncheckedUpdateManyWithoutProductNestedInput } from '../order-item/order-item-unchecked-update-many-without-product-nested.input';
 
 @InputType()
 export class ProductUncheckedUpdateWithoutCategoryInput {
@@ -43,4 +45,10 @@ export class ProductUncheckedUpdateWithoutCategoryInput {
 
     @Field(() => CollectionUncheckedUpdateManyWithoutProductsNestedInput, {nullable:true})
     collections?: CollectionUncheckedUpdateManyWithoutProductsNestedInput;
+
+    @Field(() => CartItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    cartItem?: CartItemUncheckedUpdateManyWithoutProductNestedInput;
+
+    @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    orderItem?: OrderItemUncheckedUpdateManyWithoutProductNestedInput;
 }
