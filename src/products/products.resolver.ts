@@ -1,12 +1,12 @@
-import { ProductWhereInput } from './../@generated/product/product-where.input';
 import { Resolver, Query, Mutation, Args, ID, Int } from '@nestjs/graphql';
+import { Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 import { ProductsService } from './products.service';
 import { Product, ProductList } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { ProductWhereInput } from 'prisma/generated';
 
 @Resolver(() => Product)
 export class ProductsResolver {
