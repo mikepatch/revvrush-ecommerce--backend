@@ -2,6 +2,82 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cart {
+  """Product createdAt"""
+  createdAt: DateTime!
+
+  """Cart ID"""
+  id: ID!
+
+  """Items in the cart"""
+  items: [CartItem]
+
+  """Product updatedAt"""
+  updatedAt: DateTime!
+
+  """User ID"""
+  userId: ID!
+}
+
+type CartItem {
+  """Cart ID"""
+  cartId: ID!
+
+  """Product createdAt"""
+  createdAt: DateTime!
+
+  """CartProduct ID"""
+  id: ID!
+
+  """Product"""
+  product: Product!
+
+  """Product ID"""
+  productId: ID!
+
+  """Product quantity"""
+  quantity: Int!
+
+  """Product updatedAt"""
+  updatedAt: DateTime!
+}
+
+input CartItemListRelationFilter {
+  every: CartItemWhereInput
+  none: CartItemWhereInput
+  some: CartItemWhereInput
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  cart: CartRelationFilter
+  cartId: StringFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
+  product: ProductRelationFilter
+  productId: StringFilter
+  quantity: IntFilter
+  updatedAt: DateTimeFilter
+}
+
+input CartRelationFilter {
+  is: CartWhereInput
+  isNot: CartWhereInput
+}
+
+input CartWhereInput {
+  AND: [CartWhereInput!]
+  NOT: [CartWhereInput!]
+  OR: [CartWhereInput!]
+  createdAt: DateTimeFilter
+  id: StringFilter
+  items: CartItemListRelationFilter
+  updatedAt: DateTimeFilter
+  userId: StringFilter
+}
+
 type Collection {
   """Product collection cover image URL"""
   coverImage: String!
@@ -45,6 +121,22 @@ input CollectionWhereInput {
   products: ProductListRelationFilter
   slug: StringFilter
   updatedAt: DateTimeFilter
+}
+
+input CreateCartInput {
+  """User ID"""
+  userId: ID!
+}
+
+input CreateCartItemInput {
+  """Cart ID"""
+  cartId: ID!
+
+  """Product ID"""
+  productId: ID!
+
+  """Product quantity"""
+  quantity: Int!
 }
 
 input CreateCollectionInput {
@@ -131,6 +223,17 @@ input EnumOrderStatusFilter {
   notIn: [OrderStatus!]
 }
 
+input FloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -159,16 +262,25 @@ type ListMeta {
 }
 
 type Mutation {
+  """Add item to cart"""
+  addItemToCart(createCartItemInput: CreateCartItemInput!): CartItem
+  createCart(createCartInput: CreateCartInput!): Cart!
   createCollection(createCollectionInput: CreateCollectionInput!): Collection
   createOrder(createOrderInput: CreateOrderInput!): Order!
   createProduct(createProductInput: CreateProductInput!): Product!
   createProductCategory(createProductCategoryInput: CreateProductCategoryInput!): ProductCategory!
   createProductVariant(createProductVariantInput: CreateProductVariantInput!): ProductVariant!
+  removeCart(id: ID!): Cart!
   removeCollection(id: Int!): Collection!
+
+  """Remove item from cart"""
+  removeItemFromCart(cartItemId: ID!): CartItem
   removeOrder(id: Int!): Order!
   removeProduct(id: ID!): Product!
   removeProductCategory(id: ID!): ProductCategory!
   removeProductVariant(id: Int!): ProductVariant!
+  updateCart(id: ID!, updateCartInput: UpdateCartInput!): Cart!
+  updateCartItem(cartItemId: ID!, data: UpdateCartItemInput!): CartItem!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(id: ID!, updateProductInput: UpdateProductInput!): Product!
@@ -192,6 +304,17 @@ input NestedEnumOrderStatusFilter {
   in: [OrderStatus!]
   not: NestedEnumOrderStatusFilter
   notIn: [OrderStatus!]
+}
+
+input NestedFloatFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatFilter
+  notIn: [Float!]
 }
 
 input NestedIntFilter {
@@ -249,13 +372,33 @@ type Order {
   exampleField: Int!
 }
 
+input OrderItemListRelationFilter {
+  every: OrderItemWhereInput
+  none: OrderItemWhereInput
+  some: OrderItemWhereInput
+}
+
+input OrderItemWhereInput {
+  AND: [OrderItemWhereInput!]
+  NOT: [OrderItemWhereInput!]
+  OR: [OrderItemWhereInput!]
+  createdAt: DateTimeFilter
+  id: StringFilter
+  order: OrderRelationFilter
+  orderId: StringFilter
+  product: ProductRelationFilter
+  productId: StringFilter
+  quantity: IntFilter
+  updatedAt: DateTimeFilter
+}
+
 input OrderListRelationFilter {
   every: OrderWhereInput
   none: OrderWhereInput
   some: OrderWhereInput
 }
 
-input OrderNullableRelationFilter {
+input OrderRelationFilter {
   is: OrderWhereInput
   isNot: OrderWhereInput
 }
@@ -273,9 +416,9 @@ input OrderWhereInput {
   OR: [OrderWhereInput!]
   createdAt: DateTimeFilter
   id: StringFilter
-  products: ProductListRelationFilter
+  items: OrderItemListRelationFilter
   status: EnumOrderStatusFilter
-  totalAmount: IntFilter
+  totalAmount: FloatFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
@@ -492,7 +635,7 @@ input ProductWhereInput {
   AND: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   OR: [ProductWhereInput!]
-  Order: OrderNullableRelationFilter
+  cartItem: CartItemListRelationFilter
   category: ProductCategoryRelationFilter
   categoryId: StringFilter
   collections: CollectionListRelationFilter
@@ -502,6 +645,7 @@ input ProductWhereInput {
   images: StringNullableListFilter
   name: StringFilter
   orderId: StringNullableFilter
+  orderItem: OrderItemListRelationFilter
   price: IntFilter
   slug: StringFilter
   updatedAt: DateTimeFilter
@@ -509,6 +653,8 @@ input ProductWhereInput {
 }
 
 type Query {
+  cart(id: ID!): Cart!
+  carts(skip: Int = 0, take: Int = 20): [Cart!]!
   collection(id: ID, name: String, slug: String): Collection!
   collections(skip: Int = 0, take: Int = 10): [Collection!]!
   order(id: Int!): Order!
@@ -566,6 +712,22 @@ input StringNullableListFilter {
   hasEvery: [String!]
   hasSome: [String!]
   isEmpty: Boolean
+}
+
+input UpdateCartInput {
+  """User ID"""
+  userId: ID
+}
+
+input UpdateCartItemInput {
+  """Cart ID"""
+  cartId: ID
+
+  """Product ID"""
+  productId: ID
+
+  """Product quantity"""
+  quantity: Int
 }
 
 input UpdateCollectionInput {
