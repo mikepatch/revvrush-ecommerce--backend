@@ -119,14 +119,14 @@ enum OrderStatus {
 }
 
 model Order {
-  id          String      @id @default(uuid())
-  userId      String
-  items       OrderItem[]
-  totalAmount Float
-  status      OrderStatus
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  user        User        @relation(fields: [userId], references: [id])
+  id         String      @id @default(uuid())
+  userId     String
+  items      OrderItem[]
+  totalPrice Float
+  status     OrderStatus
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  user       User        @relation(fields: [userId], references: [id])
 }
 
 model OrderItem {
