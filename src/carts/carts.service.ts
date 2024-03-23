@@ -1,4 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Cart } from '@prisma/client';
+
 import { CreateCartInput } from './dto/create-cart.input';
 import { UpdateCartInput } from './dto/update-cart.input';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
@@ -9,7 +11,7 @@ import { UpdateCartItemInput } from 'src/carts/dto/update-cart-item.input';
 export class CartsService {
   constructor(@Inject(PrismaService) private prismaService: PrismaService) {}
 
-  async create(data: CreateCartInput) {
+  async create(data: CreateCartInput): Promise<Cart> {
     return await this.prismaService.cart.create({
       data: {
         ...data,
@@ -62,8 +64,8 @@ export class CartsService {
     });
   }
 
-  async findOne(id: string) {
-    return await this.prismaService.cart.findUnique({
+  async findOneById(id: string) {
+    const cart = await this.prismaService.cart.findUnique({
       where: {
         id,
       },
@@ -75,6 +77,17 @@ export class CartsService {
         },
       },
     });
+
+    const totalPrice = cart.items.reduce((acc, item) => {
+      return acc + item.product.price * item.quantity;
+    }, 0);
+
+    return {
+      data: cart,
+      meta: {
+        totalPrice,
+      },
+    };
   }
 
   async updateCart(id: string, data: UpdateCartInput) {

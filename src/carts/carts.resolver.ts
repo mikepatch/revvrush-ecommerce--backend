@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
+
 import { CartsService } from './carts.service';
-import { Cart } from './entities/cart.entity';
+import { Cart, CartWithMeta } from './entities/cart.entity';
 import { CreateCartInput } from './dto/create-cart.input';
 import { UpdateCartInput } from './dto/update-cart.input';
 import { CartItem } from 'src/carts/entities/cart-item.entity';
@@ -56,9 +57,9 @@ export class CartsResolver {
     return await this.cartsService.findAll(skip, take);
   }
 
-  @Query(() => Cart, { name: 'cart' })
-  async findOne(@Args('id', { type: () => ID }) id: string) {
-    return await this.cartsService.findOne(id);
+  @Query(() => CartWithMeta, { name: 'cartById' })
+  async findOneById(@Args('id', { type: () => ID }) id: string) {
+    return await this.cartsService.findOneById(id);
   }
 
   @Mutation(() => Cart)
