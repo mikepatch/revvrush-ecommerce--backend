@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
 
 import { Cart as CartClient } from '@prisma/client';
 import { CartItem } from 'src/carts/entities/cart-item.entity';
@@ -13,7 +13,7 @@ export class Cart implements CartClient {
 
   @Field(() => [CartItem], {
     description: 'Items in the cart',
-    nullable: 'itemsAndList',
+    nullable: 'items',
   })
   items: CartItem[];
 
@@ -22,4 +22,19 @@ export class Cart implements CartClient {
 
   @Field({ description: 'Product updatedAt' })
   updatedAt: Date;
+}
+
+@ObjectType()
+export class CartMeta {
+  @Field(() => Float, { description: 'Total price of the cart' })
+  totalPrice: number;
+}
+
+@ObjectType()
+export class CartWithMeta {
+  @Field(() => Cart, { description: 'Cart' })
+  data: Cart;
+
+  @Field(() => CartMeta, { description: 'Cart meta' })
+  meta: CartMeta;
 }
