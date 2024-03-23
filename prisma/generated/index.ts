@@ -83,7 +83,7 @@ export enum OrderStatus {
 export enum OrderScalarFieldEnum {
     id = "id",
     userId = "userId",
-    totalAmount = "totalAmount",
+    totalPrice = "totalPrice",
     status = "status",
     createdAt = "createdAt",
     updatedAt = "updatedAt"
@@ -2530,7 +2530,7 @@ export class NullableStringFieldUpdateOperationsInput {
 @InputType()
 export class OrderAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -2540,7 +2540,7 @@ export class OrderCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -2563,7 +2563,7 @@ export class OrderCreateManyUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -2579,7 +2579,7 @@ export class OrderCreateManyInput {
     @Field(() => String, {nullable:false})
     userId!: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -2642,7 +2642,7 @@ export class OrderCreateWithoutItemsInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -2658,7 +2658,7 @@ export class OrderCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -2674,7 +2674,7 @@ export class OrderCreateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -3514,7 +3514,7 @@ export class OrderMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -3530,7 +3530,7 @@ export class OrderMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -3552,7 +3552,7 @@ export class OrderOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -3578,7 +3578,7 @@ export class OrderOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     status?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -3612,7 +3612,7 @@ export class OrderScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userId?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatWithAggregatesFilter>;
+    totalPrice?: InstanceType<typeof FloatWithAggregatesFilter>;
     @Field(() => EnumOrderStatusWithAggregatesFilter, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -3634,7 +3634,7 @@ export class OrderScalarWhereInput {
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => FloatFilter, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFilter>;
+    totalPrice?: InstanceType<typeof FloatFilter>;
     @Field(() => EnumOrderStatusFilter, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -3646,7 +3646,7 @@ export class OrderScalarWhereInput {
 @InputType()
 export class OrderSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    totalAmount?: keyof typeof SortOrder;
+    totalPrice?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -3672,7 +3672,7 @@ export class OrderUncheckedCreateWithoutItemsInput {
     @Field(() => String, {nullable:false})
     userId!: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -3686,7 +3686,7 @@ export class OrderUncheckedCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -3704,7 +3704,7 @@ export class OrderUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     userId!: string;
     @Field(() => Float, {nullable:false})
-    totalAmount!: number;
+    totalPrice!: number;
     @Field(() => OrderStatus, {nullable:false})
     status!: keyof typeof OrderStatus;
     @Field(() => Date, {nullable:true})
@@ -3757,7 +3757,7 @@ export class OrderUncheckedUpdateManyWithoutUserInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3773,7 +3773,7 @@ export class OrderUncheckedUpdateManyInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     userId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3789,7 +3789,7 @@ export class OrderUncheckedUpdateWithoutItemsInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     userId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3803,7 +3803,7 @@ export class OrderUncheckedUpdateWithoutUserInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3821,7 +3821,7 @@ export class OrderUncheckedUpdateInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     userId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3837,7 +3837,7 @@ export class OrderUpdateManyMutationInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3937,7 +3937,7 @@ export class OrderUpdateWithoutItemsInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3953,7 +3953,7 @@ export class OrderUpdateWithoutUserInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -3969,7 +3969,7 @@ export class OrderUpdateInput {
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => FloatFieldUpdateOperationsInput, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
+    totalPrice?: InstanceType<typeof FloatFieldUpdateOperationsInput>;
     @Field(() => EnumOrderStatusFieldUpdateOperationsInput, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -4021,7 +4021,7 @@ export class OrderWhereUniqueInput {
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => FloatFilter, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFilter>;
+    totalPrice?: InstanceType<typeof FloatFilter>;
     @Field(() => EnumOrderStatusFilter, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -4047,7 +4047,7 @@ export class OrderWhereInput {
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => FloatFilter, {nullable:true})
-    totalAmount?: InstanceType<typeof FloatFilter>;
+    totalPrice?: InstanceType<typeof FloatFilter>;
     @Field(() => EnumOrderStatusFilter, {nullable:true})
     status?: InstanceType<typeof EnumOrderStatusFilter>;
     @Field(() => DateTimeFilter, {nullable:true})

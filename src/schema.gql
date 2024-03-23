@@ -10,7 +10,7 @@ type Cart {
   id: ID!
 
   """Items in the cart"""
-  items: [CartItem]
+  items: [CartItem]!
 
   """Product updatedAt"""
   updatedAt: DateTime!
@@ -62,6 +62,11 @@ input CartItemWhereInput {
   updatedAt: DateTimeFilter
 }
 
+type CartMeta {
+  """Total price of the cart"""
+  totalPrice: Float!
+}
+
 input CartRelationFilter {
   is: CartWhereInput
   isNot: CartWhereInput
@@ -76,6 +81,14 @@ input CartWhereInput {
   items: CartItemListRelationFilter
   updatedAt: DateTimeFilter
   userId: StringFilter
+}
+
+type CartWithMeta {
+  """Cart"""
+  data: Cart!
+
+  """Cart meta"""
+  meta: CartMeta!
 }
 
 type Collection {
@@ -418,7 +431,7 @@ input OrderWhereInput {
   id: StringFilter
   items: OrderItemListRelationFilter
   status: EnumOrderStatusFilter
-  totalAmount: FloatFilter
+  totalPrice: FloatFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
@@ -653,7 +666,7 @@ input ProductWhereInput {
 }
 
 type Query {
-  cart(id: ID!): Cart!
+  cartById(id: ID!): CartWithMeta!
   carts(skip: Int = 0, take: Int = 20): [Cart!]!
   collection(id: ID, name: String, slug: String): Collection!
   collections(skip: Int = 0, take: Int = 10): [Collection!]!
