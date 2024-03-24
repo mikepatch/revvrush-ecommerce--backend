@@ -74,6 +74,11 @@ export class CartsService {
           include: {
             product: true,
           },
+          orderBy: {
+            product: {
+              name: 'asc',
+            },
+          },
         },
       },
     });
