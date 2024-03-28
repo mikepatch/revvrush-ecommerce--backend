@@ -6,7 +6,10 @@ import { ProductsService } from './products.service';
 import { Product, ProductList } from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { ProductWhereInput } from 'prisma/generated';
+import {
+  ProductOrderByWithRelationInput,
+  ProductWhereInput,
+} from 'prisma/generated';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -42,8 +45,14 @@ export class ProductsResolver {
       nullable: true,
     })
     where?: Prisma.ProductWhereInput,
+    @Args('orderBy', {
+      name: 'orderBy',
+      type: () => ProductOrderByWithRelationInput,
+      nullable: true,
+    })
+    orderBy?: Prisma.ProductOrderByWithRelationInput,
   ) {
-    return await this.productsService.findAll({ skip, take, where });
+    return await this.productsService.findAll({ skip, take, where, orderBy });
   }
 
   @Query(() => Product, { name: 'product' })

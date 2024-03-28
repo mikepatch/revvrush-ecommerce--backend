@@ -10,7 +10,7 @@ type Cart {
   id: ID!
 
   """Items in the cart"""
-  items: [CartItem]!
+  items: [CartItem!]!
 
   """Product updatedAt"""
   updatedAt: DateTime!
@@ -46,6 +46,10 @@ input CartItemListRelationFilter {
   every: CartItemWhereInput
   none: CartItemWhereInput
   some: CartItemWhereInput
+}
+
+input CartItemOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input CartItemWhereInput {
@@ -112,7 +116,7 @@ type Collection {
   products: [Product!]!
 
   """Product collection slug"""
-  slug: String
+  slug: String!
   updatedAt: String!
 }
 
@@ -120,6 +124,10 @@ input CollectionListRelationFilter {
   every: CollectionWhereInput
   none: CollectionWhereInput
   some: CollectionWhereInput
+}
+
+input CollectionOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input CollectionWhereInput {
@@ -380,6 +388,11 @@ input NestedStringNullableFilter {
   startsWith: String
 }
 
+enum NullsOrder {
+  first
+  last
+}
+
 type Order {
   """Example field (placeholder)"""
   exampleField: Int!
@@ -389,6 +402,10 @@ input OrderItemListRelationFilter {
   every: OrderItemWhereInput
   none: OrderItemWhereInput
   some: OrderItemWhereInput
+}
+
+input OrderItemOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input OrderItemWhereInput {
@@ -517,6 +534,22 @@ input ProductCategoryNullableRelationFilter {
   isNot: ProductCategoryWhereInput
 }
 
+input ProductCategoryOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProductCategoryOrderByWithRelationInput {
+  createdAt: SortOrder
+  id: SortOrder
+  name: SortOrder
+  parentCategory: ProductCategoryOrderByWithRelationInput
+  parentCategoryId: SortOrderInput
+  products: ProductOrderByRelationAggregateInput
+  slug: SortOrder
+  subCategories: ProductCategoryOrderByRelationAggregateInput
+  updatedAt: SortOrder
+}
+
 input ProductCategoryRelationFilter {
   is: ProductCategoryWhereInput
   isNot: ProductCategoryWhereInput
@@ -549,6 +582,28 @@ input ProductListRelationFilter {
   every: ProductWhereInput
   none: ProductWhereInput
   some: ProductWhereInput
+}
+
+input ProductOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProductOrderByWithRelationInput {
+  cartItem: CartItemOrderByRelationAggregateInput
+  category: ProductCategoryOrderByWithRelationInput
+  categoryId: SortOrder
+  collections: CollectionOrderByRelationAggregateInput
+  createdAt: SortOrder
+  description: SortOrderInput
+  id: SortOrder
+  images: SortOrder
+  name: SortOrder
+  orderId: SortOrderInput
+  orderItem: OrderItemOrderByRelationAggregateInput
+  price: SortOrder
+  slug: SortOrder
+  updatedAt: SortOrder
+  variants: ProductVariantOrderByRelationAggregateInput
 }
 
 input ProductRelationFilter {
@@ -624,6 +679,10 @@ input ProductVariantOptionWhereInput {
   values: StringNullableListFilter
 }
 
+input ProductVariantOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
 input ProductVariantRelationFilter {
   is: ProductVariantWhereInput
   isNot: ProductVariantWhereInput
@@ -679,7 +738,7 @@ type Query {
   productCategoryById(id: ID!): ProductCategory!
   productVariant(id: Int!): ProductVariant!
   productVariants: [ProductVariant!]!
-  products(skip: Int = 0, take: Int = 10, where: ProductWhereInput): ProductList!
+  products(orderBy: ProductOrderByWithRelationInput, skip: Int = 0, take: Int = 10, where: ProductWhereInput): ProductList!
   productsByCategorySlug(skip: Int = 0, slug: String!, take: Int = 10): ProductList!
   productsByQuery(query: String!, skip: Int = 0, take: Int = 10): ProductList!
 }
@@ -687,6 +746,16 @@ type Query {
 enum QueryMode {
   default
   insensitive
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input SortOrderInput {
+  nulls: NullsOrder
+  sort: SortOrder!
 }
 
 input StringFilter {

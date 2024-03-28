@@ -13,7 +13,6 @@ export class Cart implements CartClient {
 
   @Field(() => [CartItem], {
     description: 'Items in the cart',
-    nullable: 'items',
   })
   items: CartItem[];
 

@@ -13,7 +13,6 @@ export class Collection implements CollectionClient {
 
   @Field(() => String, {
     description: 'Product collection slug',
-    nullable: true,
   })
   slug: string;
 
