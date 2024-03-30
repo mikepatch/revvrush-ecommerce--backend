@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { YogaDriver, YogaDriverConfig } from '@graphql-yoga/nestjs';
 import { join } from 'path';
 
 import { AppController } from './app.controller';
@@ -13,14 +13,15 @@ import { CollectionsModule } from 'src/collections/collections.module';
 import { ProductVariantsModule } from './product-variants/product-variants.module';
 import { OrdersModule } from './orders/orders.module';
 import { CartsModule } from './carts/carts.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
+    GraphQLModule.forRoot<YogaDriverConfig>({
+      driver: YogaDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
@@ -31,6 +32,7 @@ import { CartsModule } from './carts/carts.module';
     ProductVariantsModule,
     OrdersModule,
     CartsModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
