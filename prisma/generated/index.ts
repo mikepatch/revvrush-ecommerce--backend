@@ -58,8 +58,21 @@ export enum ProductScalarFieldEnum {
     slug = "slug",
     categoryId = "categoryId",
     images = "images",
+    avgRating = "avgRating",
     description = "description",
     orderId = "orderId",
+    createdAt = "createdAt",
+    updatedAt = "updatedAt"
+}
+
+export enum ProductReviewScalarFieldEnum {
+    id = "id",
+    productId = "productId",
+    name = "name",
+    email = "email",
+    rating = "rating",
+    headline = "headline",
+    content = "content",
     createdAt = "createdAt",
     updatedAt = "updatedAt"
 }
@@ -109,6 +122,7 @@ export enum CollectionScalarFieldEnum {
     description = "description",
     slug = "slug",
     coverImage = "coverImage",
+    productIds = "productIds",
     createdAt = "createdAt",
     updatedAt = "updatedAt"
 }
@@ -137,6 +151,7 @@ registerEnumType(OrderItemScalarFieldEnum, { name: 'OrderItemScalarFieldEnum', d
 registerEnumType(OrderScalarFieldEnum, { name: 'OrderScalarFieldEnum', description: undefined })
 registerEnumType(OrderStatus, { name: 'OrderStatus', description: undefined })
 registerEnumType(ProductCategoryScalarFieldEnum, { name: 'ProductCategoryScalarFieldEnum', description: undefined })
+registerEnumType(ProductReviewScalarFieldEnum, { name: 'ProductReviewScalarFieldEnum', description: undefined })
 registerEnumType(ProductScalarFieldEnum, { name: 'ProductScalarFieldEnum', description: undefined })
 registerEnumType(ProductVariantOptionScalarFieldEnum, { name: 'ProductVariantOptionScalarFieldEnum', description: undefined })
 registerEnumType(ProductVariantScalarFieldEnum, { name: 'ProductVariantScalarFieldEnum', description: undefined })
@@ -1317,6 +1332,8 @@ export class CollectionCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     coverImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    productIds?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
@@ -1334,6 +1351,8 @@ export class CollectionCreateManyInput {
     slug!: string;
     @Field(() => String, {nullable:false})
     coverImage!: string;
+    @Field(() => CollectionCreateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionCreateproductIdsInput>;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -1375,6 +1394,8 @@ export class CollectionCreateWithoutProductsInput {
     slug!: string;
     @Field(() => String, {nullable:false})
     coverImage!: string;
+    @Field(() => CollectionCreateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionCreateproductIdsInput>;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -1393,12 +1414,20 @@ export class CollectionCreateInput {
     slug!: string;
     @Field(() => String, {nullable:false})
     coverImage!: string;
+    @Field(() => CollectionCreateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionCreateproductIdsInput>;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => ProductCreateNestedManyWithoutCollectionsInput, {nullable:true})
     products?: InstanceType<typeof ProductCreateNestedManyWithoutCollectionsInput>;
+}
+
+@InputType()
+export class CollectionCreateproductIdsInput {
+    @Field(() => [String], {nullable:false})
+    set!: Array<string>;
 }
 
 @InputType()
@@ -1466,6 +1495,8 @@ export class CollectionOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     coverImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    productIds?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
@@ -1489,6 +1520,8 @@ export class CollectionOrderByWithRelationInput {
     slug?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     coverImage?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    productIds?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -1515,6 +1548,8 @@ export class CollectionScalarWhereWithAggregatesInput {
     slug?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     coverImage?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringNullableListFilter, {nullable:true})
+    productIds?: InstanceType<typeof StringNullableListFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -1539,6 +1574,8 @@ export class CollectionScalarWhereInput {
     slug?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     coverImage?: InstanceType<typeof StringFilter>;
+    @Field(() => StringNullableListFilter, {nullable:true})
+    productIds?: InstanceType<typeof StringNullableListFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -1570,6 +1607,8 @@ export class CollectionUncheckedCreateWithoutProductsInput {
     slug!: string;
     @Field(() => String, {nullable:false})
     coverImage!: string;
+    @Field(() => CollectionCreateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionCreateproductIdsInput>;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -1588,6 +1627,8 @@ export class CollectionUncheckedCreateInput {
     slug!: string;
     @Field(() => String, {nullable:false})
     coverImage!: string;
+    @Field(() => CollectionCreateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionCreateproductIdsInput>;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -1642,6 +1683,8 @@ export class CollectionUncheckedUpdateManyWithoutProductsInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -1660,6 +1703,8 @@ export class CollectionUncheckedUpdateManyInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -1678,6 +1723,8 @@ export class CollectionUncheckedUpdateWithoutProductsInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -1696,6 +1743,8 @@ export class CollectionUncheckedUpdateInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -1716,6 +1765,8 @@ export class CollectionUpdateManyMutationInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -1788,6 +1839,8 @@ export class CollectionUpdateWithoutProductsInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
@@ -1806,12 +1859,22 @@ export class CollectionUpdateInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
     coverImage?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => CollectionUpdateproductIdsInput, {nullable:true})
+    productIds?: InstanceType<typeof CollectionUpdateproductIdsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateManyWithoutCollectionsNestedInput, {nullable:true})
     products?: InstanceType<typeof ProductUpdateManyWithoutCollectionsNestedInput>;
+}
+
+@InputType()
+export class CollectionUpdateproductIdsInput {
+    @Field(() => [String], {nullable:true})
+    set?: Array<string>;
+    @Field(() => [String], {nullable:true})
+    push?: Array<string>;
 }
 
 @InputType()
@@ -1845,6 +1908,8 @@ export class CollectionWhereUniqueInput {
     slug?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     coverImage?: InstanceType<typeof StringFilter>;
+    @Field(() => StringNullableListFilter, {nullable:true})
+    productIds?: InstanceType<typeof StringNullableListFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -1871,6 +1936,8 @@ export class CollectionWhereInput {
     slug?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     coverImage?: InstanceType<typeof StringFilter>;
+    @Field(() => StringNullableListFilter, {nullable:true})
+    productIds?: InstanceType<typeof StringNullableListFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -1999,6 +2066,56 @@ export class FloatFilter {
     gte?: number;
     @Field(() => NestedFloatFilter, {nullable:true})
     not?: InstanceType<typeof NestedFloatFilter>;
+}
+
+@InputType()
+export class FloatNullableFilter {
+    @Field(() => Float, {nullable:true})
+    equals?: number;
+    @Field(() => [Float], {nullable:true})
+    in?: Array<number>;
+    @Field(() => [Float], {nullable:true})
+    notIn?: Array<number>;
+    @Field(() => Float, {nullable:true})
+    lt?: number;
+    @Field(() => Float, {nullable:true})
+    lte?: number;
+    @Field(() => Float, {nullable:true})
+    gt?: number;
+    @Field(() => Float, {nullable:true})
+    gte?: number;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    not?: InstanceType<typeof NestedFloatNullableFilter>;
+}
+
+@InputType()
+export class FloatNullableWithAggregatesFilter {
+    @Field(() => Float, {nullable:true})
+    equals?: number;
+    @Field(() => [Float], {nullable:true})
+    in?: Array<number>;
+    @Field(() => [Float], {nullable:true})
+    notIn?: Array<number>;
+    @Field(() => Float, {nullable:true})
+    lt?: number;
+    @Field(() => Float, {nullable:true})
+    lte?: number;
+    @Field(() => Float, {nullable:true})
+    gt?: number;
+    @Field(() => Float, {nullable:true})
+    gte?: number;
+    @Field(() => NestedFloatNullableWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof NestedFloatNullableWithAggregatesFilter>;
+    @Field(() => NestedIntNullableFilter, {nullable:true})
+    _count?: InstanceType<typeof NestedIntNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _avg?: InstanceType<typeof NestedFloatNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _sum?: InstanceType<typeof NestedFloatNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _min?: InstanceType<typeof NestedFloatNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _max?: InstanceType<typeof NestedFloatNullableFilter>;
 }
 
 @InputType()
@@ -2262,6 +2379,36 @@ export class NestedFloatNullableFilter {
 }
 
 @InputType()
+export class NestedFloatNullableWithAggregatesFilter {
+    @Field(() => Float, {nullable:true})
+    equals?: number;
+    @Field(() => [Float], {nullable:true})
+    in?: Array<number>;
+    @Field(() => [Float], {nullable:true})
+    notIn?: Array<number>;
+    @Field(() => Float, {nullable:true})
+    lt?: number;
+    @Field(() => Float, {nullable:true})
+    lte?: number;
+    @Field(() => Float, {nullable:true})
+    gt?: number;
+    @Field(() => Float, {nullable:true})
+    gte?: number;
+    @Field(() => NestedFloatNullableWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof NestedFloatNullableWithAggregatesFilter>;
+    @Field(() => NestedIntNullableFilter, {nullable:true})
+    _count?: InstanceType<typeof NestedIntNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _avg?: InstanceType<typeof NestedFloatNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _sum?: InstanceType<typeof NestedFloatNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _min?: InstanceType<typeof NestedFloatNullableFilter>;
+    @Field(() => NestedFloatNullableFilter, {nullable:true})
+    _max?: InstanceType<typeof NestedFloatNullableFilter>;
+}
+
+@InputType()
 export class NestedFloatWithAggregatesFilter {
     @Field(() => Float, {nullable:true})
     equals?: number;
@@ -2505,6 +2652,20 @@ export class NestedStringWithAggregatesFilter {
     _min?: InstanceType<typeof NestedStringFilter>;
     @Field(() => NestedStringFilter, {nullable:true})
     _max?: InstanceType<typeof NestedStringFilter>;
+}
+
+@InputType()
+export class NullableFloatFieldUpdateOperationsInput {
+    @Field(() => Float, {nullable:true})
+    set?: number;
+    @Field(() => Float, {nullable:true})
+    increment?: number;
+    @Field(() => Float, {nullable:true})
+    decrement?: number;
+    @Field(() => Float, {nullable:true})
+    multiply?: number;
+    @Field(() => Float, {nullable:true})
+    divide?: number;
 }
 
 @InputType()
@@ -4064,6 +4225,8 @@ export class OrderWhereInput {
 export class ProductAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     price?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    avgRating?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -4969,6 +5132,8 @@ export class ProductCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     images?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    avgRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     orderId?: keyof typeof SortOrder;
@@ -4999,6 +5164,8 @@ export class ProductCreateManyCategoryInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5023,6 +5190,8 @@ export class ProductCreateManyInput {
     categoryId!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5089,6 +5258,19 @@ export class ProductCreateNestedOneWithoutOrderItemInput {
 }
 
 @InputType()
+export class ProductCreateNestedOneWithoutReviewsInput {
+    @Field(() => ProductCreateWithoutReviewsInput, {nullable:true})
+    @Type(() => ProductCreateWithoutReviewsInput)
+    create?: InstanceType<typeof ProductCreateWithoutReviewsInput>;
+    @Field(() => ProductCreateOrConnectWithoutReviewsInput, {nullable:true})
+    @Type(() => ProductCreateOrConnectWithoutReviewsInput)
+    connectOrCreate?: InstanceType<typeof ProductCreateOrConnectWithoutReviewsInput>;
+    @Field(() => ProductWhereUniqueInput, {nullable:true})
+    @Type(() => ProductWhereUniqueInput)
+    connect?: InstanceType<typeof ProductWhereUniqueInput>;
+}
+
+@InputType()
 export class ProductCreateNestedOneWithoutVariantsInput {
     @Field(() => ProductCreateWithoutVariantsInput, {nullable:true})
     @Type(() => ProductCreateWithoutVariantsInput)
@@ -5142,6 +5324,16 @@ export class ProductCreateOrConnectWithoutOrderItemInput {
 }
 
 @InputType()
+export class ProductCreateOrConnectWithoutReviewsInput {
+    @Field(() => ProductWhereUniqueInput, {nullable:false})
+    @Type(() => ProductWhereUniqueInput)
+    where!: InstanceType<typeof ProductWhereUniqueInput>;
+    @Field(() => ProductCreateWithoutReviewsInput, {nullable:false})
+    @Type(() => ProductCreateWithoutReviewsInput)
+    create!: InstanceType<typeof ProductCreateWithoutReviewsInput>;
+}
+
+@InputType()
 export class ProductCreateOrConnectWithoutVariantsInput {
     @Field(() => ProductWhereUniqueInput, {nullable:false})
     @Type(() => ProductWhereUniqueInput)
@@ -5163,6 +5355,8 @@ export class ProductCreateWithoutCartItemInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5179,6 +5373,8 @@ export class ProductCreateWithoutCartItemInput {
     collections?: InstanceType<typeof CollectionCreateNestedManyWithoutProductsInput>;
     @Field(() => OrderItemCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5193,6 +5389,8 @@ export class ProductCreateWithoutCategoryInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5209,6 +5407,8 @@ export class ProductCreateWithoutCategoryInput {
     cartItem?: InstanceType<typeof CartItemCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5223,6 +5423,8 @@ export class ProductCreateWithoutCollectionsInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5239,6 +5441,8 @@ export class ProductCreateWithoutCollectionsInput {
     cartItem?: InstanceType<typeof CartItemCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5253,6 +5457,8 @@ export class ProductCreateWithoutOrderItemInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5269,6 +5475,42 @@ export class ProductCreateWithoutOrderItemInput {
     collections?: InstanceType<typeof CollectionCreateNestedManyWithoutProductsInput>;
     @Field(() => CartItemCreateNestedManyWithoutProductInput, {nullable:true})
     cartItem?: InstanceType<typeof CartItemCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewCreateNestedManyWithoutProductInput>;
+}
+
+@InputType()
+export class ProductCreateWithoutReviewsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Int, {nullable:false})
+    price!: number;
+    @Field(() => String, {nullable:false})
+    slug!: string;
+    @Field(() => ProductCreateimagesInput, {nullable:true})
+    images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
+    @Field(() => String, {nullable:true})
+    description?: string;
+    @Field(() => String, {nullable:true})
+    orderId?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => ProductCategoryCreateNestedOneWithoutProductsInput, {nullable:false})
+    category!: InstanceType<typeof ProductCategoryCreateNestedOneWithoutProductsInput>;
+    @Field(() => ProductVariantCreateNestedManyWithoutProductInput, {nullable:true})
+    variants?: InstanceType<typeof ProductVariantCreateNestedManyWithoutProductInput>;
+    @Field(() => CollectionCreateNestedManyWithoutProductsInput, {nullable:true})
+    collections?: InstanceType<typeof CollectionCreateNestedManyWithoutProductsInput>;
+    @Field(() => CartItemCreateNestedManyWithoutProductInput, {nullable:true})
+    cartItem?: InstanceType<typeof CartItemCreateNestedManyWithoutProductInput>;
+    @Field(() => OrderItemCreateNestedManyWithoutProductInput, {nullable:true})
+    orderItem?: InstanceType<typeof OrderItemCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5283,6 +5525,8 @@ export class ProductCreateWithoutVariantsInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5299,6 +5543,8 @@ export class ProductCreateWithoutVariantsInput {
     cartItem?: InstanceType<typeof CartItemCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5313,6 +5559,8 @@ export class ProductCreateInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5331,6 +5579,8 @@ export class ProductCreateInput {
     cartItem?: InstanceType<typeof CartItemCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5362,6 +5612,8 @@ export class ProductMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     categoryId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    avgRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     orderId?: keyof typeof SortOrder;
@@ -5383,6 +5635,8 @@ export class ProductMinOrderByAggregateInput {
     slug?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     categoryId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    avgRating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -5413,6 +5667,8 @@ export class ProductOrderByWithAggregationInput {
     categoryId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     images?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    avgRating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -5448,6 +5704,8 @@ export class ProductOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     images?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
+    avgRating?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     orderId?: InstanceType<typeof SortOrderInput>;
@@ -5465,6 +5723,8 @@ export class ProductOrderByWithRelationInput {
     cartItem?: InstanceType<typeof CartItemOrderByRelationAggregateInput>;
     @Field(() => OrderItemOrderByRelationAggregateInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemOrderByRelationAggregateInput>;
+    @Field(() => ProductReviewOrderByRelationAggregateInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -5473,6 +5733,702 @@ export class ProductRelationFilter {
     is?: InstanceType<typeof ProductWhereInput>;
     @Field(() => ProductWhereInput, {nullable:true})
     isNot?: InstanceType<typeof ProductWhereInput>;
+}
+
+@InputType()
+export class ProductReviewAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class ProductReviewCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    productId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    headline?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    content?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class ProductReviewCreateManyProductInputEnvelope {
+    @Field(() => [ProductReviewCreateManyProductInput], {nullable:false})
+    @Type(() => ProductReviewCreateManyProductInput)
+    data!: Array<ProductReviewCreateManyProductInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class ProductReviewCreateManyProductInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => Int, {nullable:false})
+    rating!: number;
+    @Field(() => String, {nullable:false})
+    headline!: string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class ProductReviewCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    productId!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => Int, {nullable:false})
+    rating!: number;
+    @Field(() => String, {nullable:false})
+    headline!: string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class ProductReviewCreateNestedManyWithoutProductInput {
+    @Field(() => [ProductReviewCreateWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateWithoutProductInput)
+    create?: Array<ProductReviewCreateWithoutProductInput>;
+    @Field(() => [ProductReviewCreateOrConnectWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateOrConnectWithoutProductInput)
+    connectOrCreate?: Array<ProductReviewCreateOrConnectWithoutProductInput>;
+    @Field(() => ProductReviewCreateManyProductInputEnvelope, {nullable:true})
+    @Type(() => ProductReviewCreateManyProductInputEnvelope)
+    createMany?: InstanceType<typeof ProductReviewCreateManyProductInputEnvelope>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    connect?: Array<ProductReviewWhereUniqueInput>;
+}
+
+@InputType()
+export class ProductReviewCreateOrConnectWithoutProductInput {
+    @Field(() => ProductReviewWhereUniqueInput, {nullable:false})
+    @Type(() => ProductReviewWhereUniqueInput)
+    where!: InstanceType<typeof ProductReviewWhereUniqueInput>;
+    @Field(() => ProductReviewCreateWithoutProductInput, {nullable:false})
+    @Type(() => ProductReviewCreateWithoutProductInput)
+    create!: InstanceType<typeof ProductReviewCreateWithoutProductInput>;
+}
+
+@InputType()
+export class ProductReviewCreateWithoutProductInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => Int, {nullable:false})
+    rating!: number;
+    @Field(() => String, {nullable:false})
+    headline!: string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class ProductReviewCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => Int, {nullable:false})
+    rating!: number;
+    @Field(() => String, {nullable:false})
+    headline!: string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => ProductCreateNestedOneWithoutReviewsInput, {nullable:false})
+    product!: InstanceType<typeof ProductCreateNestedOneWithoutReviewsInput>;
+}
+
+@InputType()
+export class ProductReviewListRelationFilter {
+    @Field(() => ProductReviewWhereInput, {nullable:true})
+    every?: InstanceType<typeof ProductReviewWhereInput>;
+    @Field(() => ProductReviewWhereInput, {nullable:true})
+    some?: InstanceType<typeof ProductReviewWhereInput>;
+    @Field(() => ProductReviewWhereInput, {nullable:true})
+    none?: InstanceType<typeof ProductReviewWhereInput>;
+}
+
+@InputType()
+export class ProductReviewMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    productId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    headline?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    content?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class ProductReviewMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    productId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    headline?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    content?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class ProductReviewOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class ProductReviewOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    productId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    headline?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    content?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+    @Field(() => ProductReviewCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ProductReviewCountOrderByAggregateInput>;
+    @Field(() => ProductReviewAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ProductReviewAvgOrderByAggregateInput>;
+    @Field(() => ProductReviewMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ProductReviewMaxOrderByAggregateInput>;
+    @Field(() => ProductReviewMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ProductReviewMinOrderByAggregateInput>;
+    @Field(() => ProductReviewSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ProductReviewSumOrderByAggregateInput>;
+}
+
+@InputType()
+export class ProductReviewOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    productId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    headline?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    content?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
+    @Field(() => ProductOrderByWithRelationInput, {nullable:true})
+    product?: InstanceType<typeof ProductOrderByWithRelationInput>;
+}
+
+@InputType()
+export class ProductReviewScalarWhereWithAggregatesInput {
+    @Field(() => [ProductReviewScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<ProductReviewScalarWhereWithAggregatesInput>;
+    @Field(() => [ProductReviewScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<ProductReviewScalarWhereWithAggregatesInput>;
+    @Field(() => [ProductReviewScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<ProductReviewScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    productId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    name?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    email?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    rating?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    headline?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
+    content?: InstanceType<typeof StringNullableWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+}
+
+@InputType()
+export class ProductReviewScalarWhereInput {
+    @Field(() => [ProductReviewScalarWhereInput], {nullable:true})
+    AND?: Array<ProductReviewScalarWhereInput>;
+    @Field(() => [ProductReviewScalarWhereInput], {nullable:true})
+    OR?: Array<ProductReviewScalarWhereInput>;
+    @Field(() => [ProductReviewScalarWhereInput], {nullable:true})
+    NOT?: Array<ProductReviewScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    productId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    rating?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    headline?: InstanceType<typeof StringFilter>;
+    @Field(() => StringNullableFilter, {nullable:true})
+    content?: InstanceType<typeof StringNullableFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class ProductReviewSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    rating?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class ProductReviewUncheckedCreateNestedManyWithoutProductInput {
+    @Field(() => [ProductReviewCreateWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateWithoutProductInput)
+    create?: Array<ProductReviewCreateWithoutProductInput>;
+    @Field(() => [ProductReviewCreateOrConnectWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateOrConnectWithoutProductInput)
+    connectOrCreate?: Array<ProductReviewCreateOrConnectWithoutProductInput>;
+    @Field(() => ProductReviewCreateManyProductInputEnvelope, {nullable:true})
+    @Type(() => ProductReviewCreateManyProductInputEnvelope)
+    createMany?: InstanceType<typeof ProductReviewCreateManyProductInputEnvelope>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    connect?: Array<ProductReviewWhereUniqueInput>;
+}
+
+@InputType()
+export class ProductReviewUncheckedCreateWithoutProductInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => Int, {nullable:false})
+    rating!: number;
+    @Field(() => String, {nullable:false})
+    headline!: string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class ProductReviewUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    productId!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => Int, {nullable:false})
+    rating!: number;
+    @Field(() => String, {nullable:false})
+    headline!: string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class ProductReviewUncheckedUpdateManyWithoutProductNestedInput {
+    @Field(() => [ProductReviewCreateWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateWithoutProductInput)
+    create?: Array<ProductReviewCreateWithoutProductInput>;
+    @Field(() => [ProductReviewCreateOrConnectWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateOrConnectWithoutProductInput)
+    connectOrCreate?: Array<ProductReviewCreateOrConnectWithoutProductInput>;
+    @Field(() => [ProductReviewUpsertWithWhereUniqueWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewUpsertWithWhereUniqueWithoutProductInput)
+    upsert?: Array<ProductReviewUpsertWithWhereUniqueWithoutProductInput>;
+    @Field(() => ProductReviewCreateManyProductInputEnvelope, {nullable:true})
+    @Type(() => ProductReviewCreateManyProductInputEnvelope)
+    createMany?: InstanceType<typeof ProductReviewCreateManyProductInputEnvelope>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    set?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    disconnect?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    delete?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    connect?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewUpdateWithWhereUniqueWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewUpdateWithWhereUniqueWithoutProductInput)
+    update?: Array<ProductReviewUpdateWithWhereUniqueWithoutProductInput>;
+    @Field(() => [ProductReviewUpdateManyWithWhereWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewUpdateManyWithWhereWithoutProductInput)
+    updateMany?: Array<ProductReviewUpdateManyWithWhereWithoutProductInput>;
+    @Field(() => [ProductReviewScalarWhereInput], {nullable:true})
+    @Type(() => ProductReviewScalarWhereInput)
+    deleteMany?: Array<ProductReviewScalarWhereInput>;
+}
+
+@InputType()
+export class ProductReviewUncheckedUpdateManyWithoutProductInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class ProductReviewUncheckedUpdateManyInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    productId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class ProductReviewUncheckedUpdateWithoutProductInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class ProductReviewUncheckedUpdateInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    productId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class ProductReviewUpdateManyMutationInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class ProductReviewUpdateManyWithWhereWithoutProductInput {
+    @Field(() => ProductReviewScalarWhereInput, {nullable:false})
+    @Type(() => ProductReviewScalarWhereInput)
+    where!: InstanceType<typeof ProductReviewScalarWhereInput>;
+    @Field(() => ProductReviewUpdateManyMutationInput, {nullable:false})
+    @Type(() => ProductReviewUpdateManyMutationInput)
+    data!: InstanceType<typeof ProductReviewUpdateManyMutationInput>;
+}
+
+@InputType()
+export class ProductReviewUpdateManyWithoutProductNestedInput {
+    @Field(() => [ProductReviewCreateWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateWithoutProductInput)
+    create?: Array<ProductReviewCreateWithoutProductInput>;
+    @Field(() => [ProductReviewCreateOrConnectWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewCreateOrConnectWithoutProductInput)
+    connectOrCreate?: Array<ProductReviewCreateOrConnectWithoutProductInput>;
+    @Field(() => [ProductReviewUpsertWithWhereUniqueWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewUpsertWithWhereUniqueWithoutProductInput)
+    upsert?: Array<ProductReviewUpsertWithWhereUniqueWithoutProductInput>;
+    @Field(() => ProductReviewCreateManyProductInputEnvelope, {nullable:true})
+    @Type(() => ProductReviewCreateManyProductInputEnvelope)
+    createMany?: InstanceType<typeof ProductReviewCreateManyProductInputEnvelope>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    set?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    disconnect?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    delete?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ProductReviewWhereUniqueInput)
+    connect?: Array<ProductReviewWhereUniqueInput>;
+    @Field(() => [ProductReviewUpdateWithWhereUniqueWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewUpdateWithWhereUniqueWithoutProductInput)
+    update?: Array<ProductReviewUpdateWithWhereUniqueWithoutProductInput>;
+    @Field(() => [ProductReviewUpdateManyWithWhereWithoutProductInput], {nullable:true})
+    @Type(() => ProductReviewUpdateManyWithWhereWithoutProductInput)
+    updateMany?: Array<ProductReviewUpdateManyWithWhereWithoutProductInput>;
+    @Field(() => [ProductReviewScalarWhereInput], {nullable:true})
+    @Type(() => ProductReviewScalarWhereInput)
+    deleteMany?: Array<ProductReviewScalarWhereInput>;
+}
+
+@InputType()
+export class ProductReviewUpdateWithWhereUniqueWithoutProductInput {
+    @Field(() => ProductReviewWhereUniqueInput, {nullable:false})
+    @Type(() => ProductReviewWhereUniqueInput)
+    where!: InstanceType<typeof ProductReviewWhereUniqueInput>;
+    @Field(() => ProductReviewUpdateWithoutProductInput, {nullable:false})
+    @Type(() => ProductReviewUpdateWithoutProductInput)
+    data!: InstanceType<typeof ProductReviewUpdateWithoutProductInput>;
+}
+
+@InputType()
+export class ProductReviewUpdateWithoutProductInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class ProductReviewUpdateInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    email?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    rating?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    headline?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    content?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => ProductUpdateOneRequiredWithoutReviewsNestedInput, {nullable:true})
+    product?: InstanceType<typeof ProductUpdateOneRequiredWithoutReviewsNestedInput>;
+}
+
+@InputType()
+export class ProductReviewUpsertWithWhereUniqueWithoutProductInput {
+    @Field(() => ProductReviewWhereUniqueInput, {nullable:false})
+    @Type(() => ProductReviewWhereUniqueInput)
+    where!: InstanceType<typeof ProductReviewWhereUniqueInput>;
+    @Field(() => ProductReviewUpdateWithoutProductInput, {nullable:false})
+    @Type(() => ProductReviewUpdateWithoutProductInput)
+    update!: InstanceType<typeof ProductReviewUpdateWithoutProductInput>;
+    @Field(() => ProductReviewCreateWithoutProductInput, {nullable:false})
+    @Type(() => ProductReviewCreateWithoutProductInput)
+    create!: InstanceType<typeof ProductReviewCreateWithoutProductInput>;
+}
+
+@InputType()
+export class ProductReviewWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => [ProductReviewWhereInput], {nullable:true})
+    AND?: Array<ProductReviewWhereInput>;
+    @Field(() => [ProductReviewWhereInput], {nullable:true})
+    OR?: Array<ProductReviewWhereInput>;
+    @Field(() => [ProductReviewWhereInput], {nullable:true})
+    NOT?: Array<ProductReviewWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    productId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    rating?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    headline?: InstanceType<typeof StringFilter>;
+    @Field(() => StringNullableFilter, {nullable:true})
+    content?: InstanceType<typeof StringNullableFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => ProductRelationFilter, {nullable:true})
+    product?: InstanceType<typeof ProductRelationFilter>;
+}
+
+@InputType()
+export class ProductReviewWhereInput {
+    @Field(() => [ProductReviewWhereInput], {nullable:true})
+    AND?: Array<ProductReviewWhereInput>;
+    @Field(() => [ProductReviewWhereInput], {nullable:true})
+    OR?: Array<ProductReviewWhereInput>;
+    @Field(() => [ProductReviewWhereInput], {nullable:true})
+    NOT?: Array<ProductReviewWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    productId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    rating?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    headline?: InstanceType<typeof StringFilter>;
+    @Field(() => StringNullableFilter, {nullable:true})
+    content?: InstanceType<typeof StringNullableFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => ProductRelationFilter, {nullable:true})
+    product?: InstanceType<typeof ProductRelationFilter>;
 }
 
 @InputType()
@@ -5495,6 +6451,8 @@ export class ProductScalarWhereWithAggregatesInput {
     categoryId?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringNullableListFilter, {nullable:true})
     images?: InstanceType<typeof StringNullableListFilter>;
+    @Field(() => FloatNullableWithAggregatesFilter, {nullable:true})
+    avgRating?: InstanceType<typeof FloatNullableWithAggregatesFilter>;
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableWithAggregatesFilter>;
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
@@ -5525,6 +6483,8 @@ export class ProductScalarWhereInput {
     categoryId?: InstanceType<typeof StringFilter>;
     @Field(() => StringNullableListFilter, {nullable:true})
     images?: InstanceType<typeof StringNullableListFilter>;
+    @Field(() => FloatNullableFilter, {nullable:true})
+    avgRating?: InstanceType<typeof FloatNullableFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
@@ -5539,6 +6499,8 @@ export class ProductScalarWhereInput {
 export class ProductSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     price?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    avgRating?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -5584,6 +6546,8 @@ export class ProductUncheckedCreateWithoutCartItemInput {
     categoryId!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5598,6 +6562,8 @@ export class ProductUncheckedCreateWithoutCartItemInput {
     collections?: InstanceType<typeof CollectionUncheckedCreateNestedManyWithoutProductsInput>;
     @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5612,6 +6578,8 @@ export class ProductUncheckedCreateWithoutCategoryInput {
     slug!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5628,6 +6596,8 @@ export class ProductUncheckedCreateWithoutCategoryInput {
     cartItem?: InstanceType<typeof CartItemUncheckedCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5644,6 +6614,8 @@ export class ProductUncheckedCreateWithoutCollectionsInput {
     categoryId!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5658,6 +6630,8 @@ export class ProductUncheckedCreateWithoutCollectionsInput {
     cartItem?: InstanceType<typeof CartItemUncheckedCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5674,6 +6648,8 @@ export class ProductUncheckedCreateWithoutOrderItemInput {
     categoryId!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5688,6 +6664,42 @@ export class ProductUncheckedCreateWithoutOrderItemInput {
     collections?: InstanceType<typeof CollectionUncheckedCreateNestedManyWithoutProductsInput>;
     @Field(() => CartItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     cartItem?: InstanceType<typeof CartItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedCreateNestedManyWithoutProductInput>;
+}
+
+@InputType()
+export class ProductUncheckedCreateWithoutReviewsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Int, {nullable:false})
+    price!: number;
+    @Field(() => String, {nullable:false})
+    slug!: string;
+    @Field(() => String, {nullable:false})
+    categoryId!: string;
+    @Field(() => ProductCreateimagesInput, {nullable:true})
+    images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
+    @Field(() => String, {nullable:true})
+    description?: string;
+    @Field(() => String, {nullable:true})
+    orderId?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => ProductVariantUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    variants?: InstanceType<typeof ProductVariantUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => CollectionUncheckedCreateNestedManyWithoutProductsInput, {nullable:true})
+    collections?: InstanceType<typeof CollectionUncheckedCreateNestedManyWithoutProductsInput>;
+    @Field(() => CartItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    cartItem?: InstanceType<typeof CartItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    orderItem?: InstanceType<typeof OrderItemUncheckedCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5704,6 +6716,8 @@ export class ProductUncheckedCreateWithoutVariantsInput {
     categoryId!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5718,6 +6732,8 @@ export class ProductUncheckedCreateWithoutVariantsInput {
     cartItem?: InstanceType<typeof CartItemUncheckedCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5734,6 +6750,8 @@ export class ProductUncheckedCreateInput {
     categoryId!: string;
     @Field(() => ProductCreateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductCreateimagesInput>;
+    @Field(() => Float, {nullable:true})
+    avgRating?: number;
     @Field(() => String, {nullable:true})
     description?: string;
     @Field(() => String, {nullable:true})
@@ -5750,6 +6768,8 @@ export class ProductUncheckedCreateInput {
     cartItem?: InstanceType<typeof CartItemUncheckedCreateNestedManyWithoutProductInput>;
     @Field(() => OrderItemUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedCreateNestedManyWithoutProductInput>;
+    @Field(() => ProductReviewUncheckedCreateNestedManyWithoutProductInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedCreateNestedManyWithoutProductInput>;
 }
 
 @InputType()
@@ -5801,6 +6821,8 @@ export class ProductUncheckedUpdateManyWithoutCategoryInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -5859,6 +6881,8 @@ export class ProductUncheckedUpdateManyWithoutCollectionsInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -5883,6 +6907,8 @@ export class ProductUncheckedUpdateManyInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -5907,6 +6933,8 @@ export class ProductUncheckedUpdateWithoutCartItemInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -5921,6 +6949,8 @@ export class ProductUncheckedUpdateWithoutCartItemInput {
     collections?: InstanceType<typeof CollectionUncheckedUpdateManyWithoutProductsNestedInput>;
     @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -5935,6 +6965,8 @@ export class ProductUncheckedUpdateWithoutCategoryInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -5951,6 +6983,8 @@ export class ProductUncheckedUpdateWithoutCategoryInput {
     cartItem?: InstanceType<typeof CartItemUncheckedUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -5967,6 +7001,8 @@ export class ProductUncheckedUpdateWithoutCollectionsInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -5981,6 +7017,8 @@ export class ProductUncheckedUpdateWithoutCollectionsInput {
     cartItem?: InstanceType<typeof CartItemUncheckedUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -5997,6 +7035,8 @@ export class ProductUncheckedUpdateWithoutOrderItemInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6011,6 +7051,42 @@ export class ProductUncheckedUpdateWithoutOrderItemInput {
     collections?: InstanceType<typeof CollectionUncheckedUpdateManyWithoutProductsNestedInput>;
     @Field(() => CartItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
     cartItem?: InstanceType<typeof CartItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedUpdateManyWithoutProductNestedInput>;
+}
+
+@InputType()
+export class ProductUncheckedUpdateWithoutReviewsInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    price?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => ProductUpdateimagesInput, {nullable:true})
+    images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    orderId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => ProductVariantUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    variants?: InstanceType<typeof ProductVariantUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => CollectionUncheckedUpdateManyWithoutProductsNestedInput, {nullable:true})
+    collections?: InstanceType<typeof CollectionUncheckedUpdateManyWithoutProductsNestedInput>;
+    @Field(() => CartItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    cartItem?: InstanceType<typeof CartItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    orderItem?: InstanceType<typeof OrderItemUncheckedUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6027,6 +7103,8 @@ export class ProductUncheckedUpdateWithoutVariantsInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6041,6 +7119,8 @@ export class ProductUncheckedUpdateWithoutVariantsInput {
     cartItem?: InstanceType<typeof CartItemUncheckedUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6057,6 +7137,8 @@ export class ProductUncheckedUpdateInput {
     categoryId?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6073,6 +7155,8 @@ export class ProductUncheckedUpdateInput {
     cartItem?: InstanceType<typeof CartItemUncheckedUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUncheckedUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUncheckedUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUncheckedUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6087,6 +7171,8 @@ export class ProductUpdateManyMutationInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6227,6 +7313,25 @@ export class ProductUpdateOneRequiredWithoutOrderItemNestedInput {
 }
 
 @InputType()
+export class ProductUpdateOneRequiredWithoutReviewsNestedInput {
+    @Field(() => ProductCreateWithoutReviewsInput, {nullable:true})
+    @Type(() => ProductCreateWithoutReviewsInput)
+    create?: InstanceType<typeof ProductCreateWithoutReviewsInput>;
+    @Field(() => ProductCreateOrConnectWithoutReviewsInput, {nullable:true})
+    @Type(() => ProductCreateOrConnectWithoutReviewsInput)
+    connectOrCreate?: InstanceType<typeof ProductCreateOrConnectWithoutReviewsInput>;
+    @Field(() => ProductUpsertWithoutReviewsInput, {nullable:true})
+    @Type(() => ProductUpsertWithoutReviewsInput)
+    upsert?: InstanceType<typeof ProductUpsertWithoutReviewsInput>;
+    @Field(() => ProductWhereUniqueInput, {nullable:true})
+    @Type(() => ProductWhereUniqueInput)
+    connect?: InstanceType<typeof ProductWhereUniqueInput>;
+    @Field(() => ProductUpdateToOneWithWhereWithoutReviewsInput, {nullable:true})
+    @Type(() => ProductUpdateToOneWithWhereWithoutReviewsInput)
+    update?: InstanceType<typeof ProductUpdateToOneWithWhereWithoutReviewsInput>;
+}
+
+@InputType()
 export class ProductUpdateOneRequiredWithoutVariantsNestedInput {
     @Field(() => ProductCreateWithoutVariantsInput, {nullable:true})
     @Type(() => ProductCreateWithoutVariantsInput)
@@ -6263,6 +7368,16 @@ export class ProductUpdateToOneWithWhereWithoutOrderItemInput {
     @Field(() => ProductUpdateWithoutOrderItemInput, {nullable:false})
     @Type(() => ProductUpdateWithoutOrderItemInput)
     data!: InstanceType<typeof ProductUpdateWithoutOrderItemInput>;
+}
+
+@InputType()
+export class ProductUpdateToOneWithWhereWithoutReviewsInput {
+    @Field(() => ProductWhereInput, {nullable:true})
+    @Type(() => ProductWhereInput)
+    where?: InstanceType<typeof ProductWhereInput>;
+    @Field(() => ProductUpdateWithoutReviewsInput, {nullable:false})
+    @Type(() => ProductUpdateWithoutReviewsInput)
+    data!: InstanceType<typeof ProductUpdateWithoutReviewsInput>;
 }
 
 @InputType()
@@ -6307,6 +7422,8 @@ export class ProductUpdateWithoutCartItemInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6323,6 +7440,8 @@ export class ProductUpdateWithoutCartItemInput {
     collections?: InstanceType<typeof CollectionUpdateManyWithoutProductsNestedInput>;
     @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6337,6 +7456,8 @@ export class ProductUpdateWithoutCategoryInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6353,6 +7474,8 @@ export class ProductUpdateWithoutCategoryInput {
     cartItem?: InstanceType<typeof CartItemUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6367,6 +7490,8 @@ export class ProductUpdateWithoutCollectionsInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6383,6 +7508,8 @@ export class ProductUpdateWithoutCollectionsInput {
     cartItem?: InstanceType<typeof CartItemUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6397,6 +7524,8 @@ export class ProductUpdateWithoutOrderItemInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6413,6 +7542,42 @@ export class ProductUpdateWithoutOrderItemInput {
     collections?: InstanceType<typeof CollectionUpdateManyWithoutProductsNestedInput>;
     @Field(() => CartItemUpdateManyWithoutProductNestedInput, {nullable:true})
     cartItem?: InstanceType<typeof CartItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUpdateManyWithoutProductNestedInput>;
+}
+
+@InputType()
+export class ProductUpdateWithoutReviewsInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    price?: InstanceType<typeof IntFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => ProductUpdateimagesInput, {nullable:true})
+    images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
+    orderId?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFieldUpdateOperationsInput>;
+    @Field(() => ProductCategoryUpdateOneRequiredWithoutProductsNestedInput, {nullable:true})
+    category?: InstanceType<typeof ProductCategoryUpdateOneRequiredWithoutProductsNestedInput>;
+    @Field(() => ProductVariantUpdateManyWithoutProductNestedInput, {nullable:true})
+    variants?: InstanceType<typeof ProductVariantUpdateManyWithoutProductNestedInput>;
+    @Field(() => CollectionUpdateManyWithoutProductsNestedInput, {nullable:true})
+    collections?: InstanceType<typeof CollectionUpdateManyWithoutProductsNestedInput>;
+    @Field(() => CartItemUpdateManyWithoutProductNestedInput, {nullable:true})
+    cartItem?: InstanceType<typeof CartItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
+    orderItem?: InstanceType<typeof OrderItemUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6427,6 +7592,8 @@ export class ProductUpdateWithoutVariantsInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6443,6 +7610,8 @@ export class ProductUpdateWithoutVariantsInput {
     cartItem?: InstanceType<typeof CartItemUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6457,6 +7626,8 @@ export class ProductUpdateInput {
     slug?: InstanceType<typeof StringFieldUpdateOperationsInput>;
     @Field(() => ProductUpdateimagesInput, {nullable:true})
     images?: InstanceType<typeof ProductUpdateimagesInput>;
+    @Field(() => NullableFloatFieldUpdateOperationsInput, {nullable:true})
+    avgRating?: InstanceType<typeof NullableFloatFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
     description?: InstanceType<typeof NullableStringFieldUpdateOperationsInput>;
     @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
@@ -6475,6 +7646,8 @@ export class ProductUpdateInput {
     cartItem?: InstanceType<typeof CartItemUpdateManyWithoutProductNestedInput>;
     @Field(() => OrderItemUpdateManyWithoutProductNestedInput, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemUpdateManyWithoutProductNestedInput>;
+    @Field(() => ProductReviewUpdateManyWithoutProductNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewUpdateManyWithoutProductNestedInput>;
 }
 
 @InputType()
@@ -6532,6 +7705,19 @@ export class ProductUpsertWithoutOrderItemInput {
     @Field(() => ProductCreateWithoutOrderItemInput, {nullable:false})
     @Type(() => ProductCreateWithoutOrderItemInput)
     create!: InstanceType<typeof ProductCreateWithoutOrderItemInput>;
+    @Field(() => ProductWhereInput, {nullable:true})
+    @Type(() => ProductWhereInput)
+    where?: InstanceType<typeof ProductWhereInput>;
+}
+
+@InputType()
+export class ProductUpsertWithoutReviewsInput {
+    @Field(() => ProductUpdateWithoutReviewsInput, {nullable:false})
+    @Type(() => ProductUpdateWithoutReviewsInput)
+    update!: InstanceType<typeof ProductUpdateWithoutReviewsInput>;
+    @Field(() => ProductCreateWithoutReviewsInput, {nullable:false})
+    @Type(() => ProductCreateWithoutReviewsInput)
+    create!: InstanceType<typeof ProductCreateWithoutReviewsInput>;
     @Field(() => ProductWhereInput, {nullable:true})
     @Type(() => ProductWhereInput)
     where?: InstanceType<typeof ProductWhereInput>;
@@ -7907,6 +9093,8 @@ export class ProductWhereUniqueInput {
     categoryId?: InstanceType<typeof StringFilter>;
     @Field(() => StringNullableListFilter, {nullable:true})
     images?: InstanceType<typeof StringNullableListFilter>;
+    @Field(() => FloatNullableFilter, {nullable:true})
+    avgRating?: InstanceType<typeof FloatNullableFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
@@ -7925,6 +9113,8 @@ export class ProductWhereUniqueInput {
     cartItem?: InstanceType<typeof CartItemListRelationFilter>;
     @Field(() => OrderItemListRelationFilter, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemListRelationFilter>;
+    @Field(() => ProductReviewListRelationFilter, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewListRelationFilter>;
 }
 
 @InputType()
@@ -7947,6 +9137,8 @@ export class ProductWhereInput {
     categoryId?: InstanceType<typeof StringFilter>;
     @Field(() => StringNullableListFilter, {nullable:true})
     images?: InstanceType<typeof StringNullableListFilter>;
+    @Field(() => FloatNullableFilter, {nullable:true})
+    avgRating?: InstanceType<typeof FloatNullableFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
     description?: InstanceType<typeof StringNullableFilter>;
     @Field(() => StringNullableFilter, {nullable:true})
@@ -7965,6 +9157,8 @@ export class ProductWhereInput {
     cartItem?: InstanceType<typeof CartItemListRelationFilter>;
     @Field(() => OrderItemListRelationFilter, {nullable:true})
     orderItem?: InstanceType<typeof OrderItemListRelationFilter>;
+    @Field(() => ProductReviewListRelationFilter, {nullable:true})
+    reviews?: InstanceType<typeof ProductReviewListRelationFilter>;
 }
 
 @InputType()

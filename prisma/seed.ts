@@ -1,10 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import { createSlug } from '../src/utils/createSlug';
+import { CreateProductInput } from 'src/products/dto/create-product.input';
+import { CreateProductCategoryInput } from 'src/product-categories/dto/create-product-category.input';
+import { CreateCollectionInput } from 'src/collections/dto/create-collection.input';
+import { CreateProductReviewInput } from 'src/product-reviews/dto/create-product-review.input';
 
 const prisma = new PrismaClient();
 
 const seedCategories = async () => {
-  const categories = [
+  const categories: (CreateProductCategoryInput & { id: string })[] = [
     {
       id: '2de6d922-1d10-4f09-bd96-93e8f51eea71',
       name: 'Wheels',
@@ -39,7 +43,7 @@ const seedCategories = async () => {
 };
 
 const seedProducts = async () => {
-  const products = [
+  const products: (CreateProductInput & { id: string })[] = [
     {
       id: '144cc549-5e12-4241-bc74-edb1d4dec789',
       categoryId: '2de6d922-1d10-4f09-bd96-93e8f51eea71',
@@ -195,7 +199,7 @@ const seedProducts = async () => {
 };
 
 const seedCollections = async () => {
-  const collections = [
+  const collections: CreateCollectionInput[] = [
     {
       name: 'Best of JDM',
       coverImage: '/images/collections/best-of-jdm.png',
@@ -252,10 +256,152 @@ const seedCollections = async () => {
   }
 };
 
+const seedProductReviews = async () => {
+  const reviews: CreateProductReviewInput[] = [
+    {
+      productId: '144cc549-5e12-4241-bc74-edb1d4dec789',
+      name: 'John Doe',
+      email: 'john@example.com',
+      rating: 5,
+      headline: 'Great wheels!',
+      content:
+        'These wheels are amazing! They look great and perform even better.',
+    },
+    {
+      productId: '144cc549-5e12-4241-bc74-edb1d4dec789',
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      rating: 4,
+      headline: 'Good wheels!',
+      content: 'These wheels are good. They look great and perform well.',
+    },
+    {
+      productId: '144cc549-5e12-4241-bc74-edb1d4dec789',
+      name: 'Alice Doe',
+      email: 'alice@example.com',
+      rating: 3,
+      headline: 'Okay wheels!',
+      content:
+        'These wheels are okay. They look good but could perform better.',
+    },
+    {
+      productId: '144cc549-5e12-4241-bc74-edb1d4dec789',
+      name: 'Bob Doe',
+      email: 'bob@example.com',
+      rating: 2,
+      headline: 'Bad wheels!',
+      content: 'These wheels are bad. They look terrible and perform poorly.',
+    },
+    {
+      productId: '144cc549-5e12-4241-bc74-edb1d4dec789',
+      name: 'Eve Doe',
+      email: 'eve@example.com',
+      rating: 1,
+      headline: 'Terrible wheels!',
+    },
+    {
+      productId: '144cc549-5e12-4241-bc74-edb1d4dec789',
+      name: 'Joh Nowak',
+      email: 'joh@example.com',
+      rating: 5,
+      headline: 'Great wheels!',
+      content:
+        'These wheels are amazing! They look great and perform even better.',
+    },
+
+    {
+      productId: '5f771e7d-d1d8-42cd-9921-86ca0c726d74',
+      name: 'John Doe',
+      email: 'john@example.com',
+      rating: 5,
+      headline: 'Great seat!',
+      content: 'This seat is amazing! It looks great and is very comfortable.',
+    },
+    {
+      productId: '5f771e7d-d1d8-42cd-9921-86ca0c726d74',
+      name: 'Jane Doe',
+      email: 'jane@example.com',
+      rating: 4,
+      headline: 'Good seat!',
+      content: 'This seat is good. It looks great and is very comfortable.',
+    },
+    {
+      productId: '5f771e7d-d1d8-42cd-9921-86ca0c726d74',
+      name: 'Alice Doe',
+      email: 'alice@example.com',
+      rating: 5,
+      headline: 'Amazing seat!',
+      content: 'This seat is amazing! It looks great and is very comfortable.',
+    },
+
+    {
+      productId: '13114cb0-31cf-474c-9f30-9c6c6f2a7baf',
+      name: 'John Doe',
+      email: 'john@example.com',
+      rating: 5,
+      headline: 'Great wheels!',
+      content:
+        'These wheels are amazing! They look great and perform even better.',
+    },
+
+    {
+      productId: 'cdcd7ad9-0e5f-46c8-9547-6cfe8e710fe6',
+      name: 'John Doe',
+      email: 'john@example.com',
+      rating: 5,
+      headline: 'Great wheels!',
+      content:
+        'These wheels are amazing! They look great and perform even better.',
+    },
+
+    {
+      productId: '13be6b09-a648-415d-8fc0-908446e3c8e2',
+      name: 'John Doe',
+      email: 'john@@example.com',
+      rating: 5,
+      headline: 'Great gauge!',
+      content:
+        'This gauge is amazing! It looks great and performs even better.',
+    },
+  ];
+
+  for (const review of reviews) {
+    try {
+      await prisma.productReview.create({
+        data: review,
+      });
+      const productId = review.productId;
+      const reviews = await prisma.productReview.findMany({
+        where: { productId },
+      });
+
+      const totalRating = reviews.reduce(
+        (acc, review) => acc + review.rating,
+        0,
+      );
+      const avgRating = Math.round((totalRating / reviews.length) * 100) / 100;
+
+      await prisma.product.update({
+        where: { id: productId },
+        data: {
+          avgRating,
+        },
+      });
+      console.log(`Created review for product: ${review.productId}`);
+    } catch (error) {
+      console.error(
+        `Error creating review for product: ${review.productId}`,
+        error,
+      );
+    }
+  }
+};
+
 const main = async () => {
   await seedCategories();
   await seedProducts();
   await seedCollections();
+  await seedProductReviews();
 };
 
 main()

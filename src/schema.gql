@@ -139,6 +139,7 @@ input CollectionWhereInput {
   description: StringFilter
   id: StringFilter
   name: StringFilter
+  productIds: StringNullableListFilter
   products: ProductListRelationFilter
   slug: StringFilter
   updatedAt: DateTimeFilter
@@ -194,6 +195,26 @@ input CreateProductInput {
   images: [String]
   name: String!
   price: Float!
+}
+
+input CreateProductReviewInput {
+  """Review content"""
+  content: String
+
+  """Review email"""
+  email: String!
+
+  """Review headline"""
+  headline: String!
+
+  """Review author"""
+  name: String!
+
+  """Review product id"""
+  productId: ID!
+
+  """Review rating"""
+  rating: Int!
 }
 
 input CreateProductVariantInput {
@@ -255,6 +276,17 @@ input FloatFilter {
   notIn: [Float!]
 }
 
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatNullableFilter
+  notIn: [Float!]
+}
+
 input IntFilter {
   equals: Int
   gt: Int
@@ -290,6 +322,7 @@ type Mutation {
   createOrder(createOrderInput: CreateOrderInput!): Order!
   createProduct(createProductInput: CreateProductInput!): Product!
   createProductCategory(createProductCategoryInput: CreateProductCategoryInput!): ProductCategory!
+  createProductReview(createProductReviewInput: CreateProductReviewInput!): ProductReview!
   createProductVariant(createProductVariantInput: CreateProductVariantInput!): ProductVariant!
   removeCart(id: ID!): Cart!
   removeCollection(id: Int!): Collection!
@@ -299,6 +332,7 @@ type Mutation {
   removeOrder(id: Int!): Order!
   removeProduct(id: ID!): Product!
   removeProductCategory(id: ID!): ProductCategory!
+  removeProductReview(id: Int!): ProductReview!
   removeProductVariant(id: Int!): ProductVariant!
   updateCart(id: ID!, updateCartInput: UpdateCartInput!): Cart!
   updateCartItem(cartItemId: ID!, data: UpdateCartItemInput!): CartItem!
@@ -306,6 +340,7 @@ type Mutation {
   updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   updateProduct(id: ID!, updateProductInput: UpdateProductInput!): Product!
   updateProductCategory(id: ID!, updateProductCategoryInput: UpdateProductCategoryInput!): ProductCategory!
+  updateProductReview(updateProductReviewInput: UpdateProductReviewInput!): ProductReview!
   updateProductVariant(updateProductVariantInput: UpdateProductVariantInput!): ProductVariant!
 }
 
@@ -335,6 +370,17 @@ input NestedFloatFilter {
   lt: Float
   lte: Float
   not: NestedFloatFilter
+  notIn: [Float!]
+}
+
+input NestedFloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: NestedFloatNullableFilter
   notIn: [Float!]
 }
 
@@ -455,6 +501,9 @@ input OrderWhereInput {
 }
 
 type Product {
+  """Product avg rating"""
+  avgRating: Float
+
   """Product category"""
   category: ProductCategory
 
@@ -484,6 +533,9 @@ type Product {
 
   """Product price"""
   price: Int!
+
+  """Product reviews"""
+  reviews: [ProductReview]
 
   """Product slug"""
   slug: String!
@@ -584,11 +636,17 @@ input ProductListRelationFilter {
   some: ProductWhereInput
 }
 
+type ProductMeta {
+  """Total number of reviews"""
+  totalReviews: Int!
+}
+
 input ProductOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
 input ProductOrderByWithRelationInput {
+  avgRating: SortOrderInput
   cartItem: CartItemOrderByRelationAggregateInput
   category: ProductCategoryOrderByWithRelationInput
   categoryId: SortOrder
@@ -601,6 +659,7 @@ input ProductOrderByWithRelationInput {
   orderId: SortOrderInput
   orderItem: OrderItemOrderByRelationAggregateInput
   price: SortOrder
+  reviews: ProductReviewOrderByRelationAggregateInput
   slug: SortOrder
   updatedAt: SortOrder
   variants: ProductVariantOrderByRelationAggregateInput
@@ -609,6 +668,90 @@ input ProductOrderByWithRelationInput {
 input ProductRelationFilter {
   is: ProductWhereInput
   isNot: ProductWhereInput
+}
+
+type ProductReview {
+  """Review content"""
+  content: String
+
+  """Review createdAt"""
+  createdAt: DateTime!
+
+  """Review email"""
+  email: String!
+
+  """Review headline"""
+  headline: String!
+
+  """Review ID"""
+  id: ID!
+
+  """Review author"""
+  name: String!
+
+  """Review product id"""
+  productId: ID!
+
+  """Review rating"""
+  rating: Int!
+
+  """Review updatedAt"""
+  updatedAt: DateTime
+}
+
+type ProductReviewListMeta {
+  """Average rating"""
+  avgRating: Float!
+
+  """Total number of record"""
+  total: Int!
+}
+
+input ProductReviewListRelationFilter {
+  every: ProductReviewWhereInput
+  none: ProductReviewWhereInput
+  some: ProductReviewWhereInput
+}
+
+type ProductReviewListWithMeta {
+  """List of reviews"""
+  data: [ProductReview!]!
+
+  """List metadata"""
+  meta: ProductReviewListMeta!
+}
+
+input ProductReviewOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ProductReviewOrderByWithRelationInput {
+  content: SortOrderInput
+  createdAt: SortOrder
+  email: SortOrder
+  headline: SortOrder
+  id: SortOrder
+  name: SortOrder
+  product: ProductOrderByWithRelationInput
+  productId: SortOrder
+  rating: SortOrder
+  updatedAt: SortOrder
+}
+
+input ProductReviewWhereInput {
+  AND: [ProductReviewWhereInput!]
+  NOT: [ProductReviewWhereInput!]
+  OR: [ProductReviewWhereInput!]
+  content: StringNullableFilter
+  createdAt: DateTimeFilter
+  email: StringFilter
+  headline: StringFilter
+  id: StringFilter
+  name: StringFilter
+  product: ProductRelationFilter
+  productId: StringFilter
+  rating: IntFilter
+  updatedAt: DateTimeFilter
 }
 
 type ProductVariant {
@@ -707,6 +850,7 @@ input ProductWhereInput {
   AND: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   OR: [ProductWhereInput!]
+  avgRating: FloatNullableFilter
   cartItem: CartItemListRelationFilter
   category: ProductCategoryRelationFilter
   categoryId: StringFilter
@@ -719,9 +863,41 @@ input ProductWhereInput {
   orderId: StringNullableFilter
   orderItem: OrderItemListRelationFilter
   price: IntFilter
+  reviews: ProductReviewListRelationFilter
   slug: StringFilter
   updatedAt: DateTimeFilter
   variants: ProductVariantListRelationFilter
+}
+
+input ProductWhereUniqueInput {
+  AND: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  avgRating: FloatNullableFilter
+  cartItem: CartItemListRelationFilter
+  category: ProductCategoryRelationFilter
+  categoryId: StringFilter
+  collections: CollectionListRelationFilter
+  createdAt: DateTimeFilter
+  description: StringNullableFilter
+  id: String
+  images: StringNullableListFilter
+  name: StringFilter
+  orderId: StringNullableFilter
+  orderItem: OrderItemListRelationFilter
+  price: IntFilter
+  reviews: ProductReviewListRelationFilter
+  slug: StringFilter
+  updatedAt: DateTimeFilter
+  variants: ProductVariantListRelationFilter
+}
+
+type ProductWithMeta {
+  """Product"""
+  data: Product!
+
+  """Product metadata"""
+  meta: ProductMeta!
 }
 
 type Query {
@@ -731,11 +907,12 @@ type Query {
   collections(skip: Int = 0, take: Int = 10): [Collection!]!
   order(id: Int!): Order!
   orders: [Order!]!
-  product(id: ID, name: String, slug: String): Product!
-  productById(id: ID!): Product!
+  product(where: ProductWhereUniqueInput): ProductWithMeta!
   productCategories(skip: Int = 0, take: Int = 10): ProductCategoriesList!
   productCategory(id: ID, name: String, slug: String): ProductCategory!
   productCategoryById(id: ID!): ProductCategory!
+  productReview(id: ID!): ProductReview!
+  productReviews(orderBy: ProductReviewOrderByWithRelationInput, where: ProductReviewWhereInput): ProductReviewListWithMeta!
   productVariant(id: Int!): ProductVariant!
   productVariants: [ProductVariant!]!
   products(orderBy: ProductOrderByWithRelationInput, skip: Int = 0, take: Int = 10, where: ProductWhereInput): ProductList!
@@ -842,11 +1019,34 @@ input UpdateProductCategoryInput {
 }
 
 input UpdateProductInput {
+  """Product rating"""
+  avgRating: Float
   categoryId: String
   description: String
   images: [String!]
   name: String
   price: Float
+}
+
+input UpdateProductReviewInput {
+  """Review content"""
+  content: String
+
+  """Review email"""
+  email: String
+
+  """Review headline"""
+  headline: String
+  id: ID!
+
+  """Review author"""
+  name: String
+
+  """Review product id"""
+  productId: ID
+
+  """Review rating"""
+  rating: Int
 }
 
 input UpdateProductVariantInput {

@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Product } from 'src/products/entities/product.entity';
 import { ProductCategory as ProductCategoryClient } from '@prisma/client';
+
+import { Product } from 'src/products/entities/product.entity';
 
 @ObjectType()
 export class ProductCategory implements ProductCategoryClient {
