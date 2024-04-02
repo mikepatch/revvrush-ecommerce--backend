@@ -3,7 +3,10 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { CreateProductInput } from './dto/create-product.input';
 import { Prisma, Product } from '@prisma/client';
-import { ProductList } from 'src/products/entities/product.entity';
+import {
+  ProductList,
+  ProductWithMeta,
+} from 'src/products/entities/product.entity';
 import { createSlug } from 'src/utils/createSlug';
 
 @Injectable()
@@ -39,17 +42,19 @@ export class ProductsService {
       orderBy,
       where,
       include: {
+        collections: true,
+        reviews: true,
         category: {
           include: {
             products: {
               include: {
                 category: true,
                 collections: true,
+                reviews: true,
               },
             },
           },
         },
-        collections: true,
       },
     });
     const total = await this.prismaService.product.count({ where });
@@ -60,25 +65,23 @@ export class ProductsService {
     };
   }
 
-  async findOne(params: {
-    id?: string;
-    name?: string;
-    slug?: string;
-  }): Promise<Product | null> {
-    const { id, name, slug } = params;
-
-    return await this.prismaService.product.findFirst({
-      where: {
-        id,
-        name,
-        slug,
-      },
+  async findOne(
+    where: Prisma.ProductWhereUniqueInput,
+  ): Promise<ProductWithMeta | null> {
+    const product = await this.prismaService.product.findFirst({
+      where,
       include: {
         category: true,
         collections: true,
-        variants: true,
+        reviews: true,
       },
     });
+    const totalReviews = product.reviews.length;
+
+    return {
+      data: product,
+      meta: { totalReviews },
+    };
   }
 
   async findAllByCategorySlug(params: {
@@ -97,12 +100,15 @@ export class ProductsService {
         },
       },
       include: {
+        collections: true,
+        reviews: true,
         category: {
           include: {
             products: {
               include: {
                 category: true,
                 collections: true,
+                reviews: true,
               },
             },
           },
@@ -121,18 +127,6 @@ export class ProductsService {
       data: products,
       meta: { total },
     };
-  }
-
-  async findOneById(
-    productWhereUniqueInput: Prisma.ProductWhereUniqueInput,
-  ): Promise<Product | null> {
-    return await this.prismaService.product.findUnique({
-      where: productWhereUniqueInput,
-      include: {
-        category: true,
-        collections: true,
-      },
-    });
   }
 
   async findAllByQuery(params: {
@@ -163,6 +157,8 @@ export class ProductsService {
       },
       include: {
         category: true,
+        collections: true,
+        reviews: true,
       },
     });
 

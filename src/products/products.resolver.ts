@@ -3,12 +3,17 @@ import { Logger } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { ProductsService } from './products.service';
-import { Product, ProductList } from './entities/product.entity';
+import {
+  Product,
+  ProductList,
+  ProductWithMeta,
+} from './entities/product.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import {
   ProductOrderByWithRelationInput,
   ProductWhereInput,
+  ProductWhereUniqueInput,
 } from 'prisma/generated';
 
 @Resolver(() => Product)
@@ -55,16 +60,16 @@ export class ProductsResolver {
     return await this.productsService.findAll({ skip, take, where, orderBy });
   }
 
-  @Query(() => Product, { name: 'product' })
+  @Query(() => ProductWithMeta, { name: 'product' })
   async getProduct(
-    @Args('id', { type: () => ID, nullable: true, name: 'ID' })
-    id?: string,
-    @Args('name', { nullable: true, name: 'Name' })
-    name?: string,
-    @Args('slug', { nullable: true, name: 'Slug' })
-    slug?: string,
+    @Args({
+      name: 'where',
+      type: () => ProductWhereUniqueInput,
+      nullable: true,
+    })
+    where?: Prisma.ProductWhereUniqueInput,
   ) {
-    return await this.productsService.findOne({ id, name, slug });
+    return await this.productsService.findOne(where);
   }
 
   @Query(() => ProductList, { name: 'productsByCategorySlug' })
@@ -115,11 +120,6 @@ export class ProductsResolver {
       take,
       skip,
     });
-  }
-
-  @Query(() => Product, { name: 'productById' })
-  async getProductById(@Args('id', { type: () => ID }) id: string) {
-    return this.productsService.findOneById({ id });
   }
 
   @Mutation(() => Product)
