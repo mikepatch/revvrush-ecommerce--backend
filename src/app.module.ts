@@ -13,7 +13,7 @@ import { CollectionsModule } from 'src/collections/collections.module';
 import { ProductVariantsModule } from './product-variants/product-variants.module';
 import { OrdersModule } from './orders/orders.module';
 import { CartsModule } from './carts/carts.module';
-import { ReviewsModule } from './reviews/reviews.module';
+import { ProductReviewsModule } from './product-reviews/product-reviews.module';
 
 @Module({
   imports: [
@@ -32,7 +32,7 @@ import { ReviewsModule } from './reviews/reviews.module';
     ProductVariantsModule,
     OrdersModule,
     CartsModule,
-    ReviewsModule,
+    ProductReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
