@@ -6,7 +6,7 @@
 
 <h2>🚀 Live Demo</h2>
 
-[miketests.byst.re/graphql](https://miketests.byst.re/graphql)
+[whatacode.pl/revvrush-ecommerce--backend/graphql](https://whatacode.pl/revvrush-ecommerce--backend/graphql)
 
 <h2>💻 Built with</h2>
 
