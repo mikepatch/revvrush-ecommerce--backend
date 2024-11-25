@@ -57,7 +57,7 @@ export class CollectionsResolver {
   }
 
   @Mutation(() => Collection)
-  async removeCollection(@Args('id', { type: () => Int }) id: number) {
+  async removeCollection(@Args('id', { type: () => String }) id: string) {
     return await this.collectionsService.remove(id);
   }
 }

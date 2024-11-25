@@ -1,13 +1,13 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
+import { PrismaService } from '../shared/prisma/prisma.service';
 import { CreateCollectionInput } from './dto/create-collection.input';
 import { UpdateCollectionInput } from './dto/update-collection.input';
-import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { Collection as CollectionClient } from '@prisma/client';
-import { createSlug } from 'src/utils/createSlug';
+import { createSlug } from '../utils/createSlug';
 
 @Injectable()
 export class CollectionsService {
-  private logger = new Logger('CollectionsService');
+  private readonly logger = new Logger(CollectionsService.name);
 
   constructor(@Inject(PrismaService) private prismaService: PrismaService) {}
 
@@ -27,10 +27,7 @@ export class CollectionsService {
   }
 
   async findAll(
-    params: {
-      skip?: number;
-      take?: number;
-    } = { skip: 0, take: 10 },
+    params: { skip?: number; take?: number } = { skip: 0, take: 10 },
   ): Promise<CollectionClient[]> {
     const { skip, take } = params;
 
@@ -66,12 +63,23 @@ export class CollectionsService {
     });
   }
 
-  async update(id: number, updateCollectionInput: UpdateCollectionInput) {
-    this.logger.log(updateCollectionInput);
-    return `This action updates a #${id} productCollection`;
+  async update(
+    id: string,
+    updateData: UpdateCollectionInput,
+  ): Promise<CollectionClient> {
+    this.logger.log(`Updating collection with id: ${id}`);
+    return await this.prismaService.collection.update({
+      where: { id },
+      data: updateData,
+      include: {
+        products: true,
+      },
+    });
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} productCollection`;
+  async remove(id: string): Promise<CollectionClient> {
+    return await this.prismaService.collection.delete({
+      where: { id },
+    });
   }
 }
