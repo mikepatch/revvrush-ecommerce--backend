@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ProductVariantsService } from './product-variants.service';
 import { ProductVariant } from './entities/product-variant.entity';
 import { CreateProductVariantInput } from './dto/create-product-variant.input';
@@ -24,7 +24,7 @@ export class ProductVariantsResolver {
   }
 
   @Query(() => ProductVariant, { name: 'productVariant' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.productVariantsService.findOne(id);
   }
 
@@ -40,7 +40,7 @@ export class ProductVariantsResolver {
   }
 
   @Mutation(() => ProductVariant)
-  removeProductVariant(@Args('id', { type: () => Int }) id: number) {
+  removeProductVariant(@Args('id', { type: () => String }) id: string) {
     return this.productVariantsService.remove(id);
   }
 }

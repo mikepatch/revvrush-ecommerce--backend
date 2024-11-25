@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-
+import { PrismaService } from '../shared/prisma/prisma.service';
 import { CreateProductVariantInput } from './dto/create-product-variant.input';
 import { UpdateProductVariantInput } from './dto/update-product-variant.input';
-import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { ProductVariant } from '@prisma/client';
 
 @Injectable()
@@ -42,19 +41,46 @@ export class ProductVariantsService {
     });
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} productVariant`;
+  async findOne(id: string) {
+    return await this.prismaService.productVariant.findUnique({
+      where: { id },
+      include: {
+        options: true,
+        product: true,
+      },
+    });
   }
 
-  async update(
-    id: string,
-    updateProductVariantInput: UpdateProductVariantInput,
-  ) {
-    console.log(updateProductVariantInput);
-    return `This action updates a #${id} productVariant`;
+  async update(id: string, updateData: UpdateProductVariantInput) {
+    const { options, productId, ...rest } = updateData;
+
+    return await this.prismaService.productVariant.update({
+      where: { id },
+      data: {
+        ...rest,
+        ...(productId && { product: { connect: { id: productId } } }),
+        ...(options && {
+          options: {
+            deleteMany: {},
+            createMany: {
+              data: options.map((option) => ({
+                name: option.name,
+                values: option.values ? { set: option.values } : undefined,
+              })),
+            },
+          },
+        }),
+      },
+      include: {
+        options: true,
+        product: true,
+      },
+    });
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} productVariant`;
+  async remove(id: string) {
+    return await this.prismaService.productVariant.delete({
+      where: { id },
+    });
   }
 }
