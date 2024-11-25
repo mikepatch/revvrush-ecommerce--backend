@@ -1,10 +1,25 @@
-import { CreateProductVariantInput } from './create-product-variant.input';
-import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
+import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
+import {
+  CreateProductVariantInput,
+  CreateProductVariantOptionInput,
+} from './create-product-variant.input';
 
 @InputType()
-export class UpdateProductVariantInput extends PartialType(
+class UpdateProductVariantOptionInput extends PartialType(
+  CreateProductVariantOptionInput,
+) {}
+
+@InputType()
+export class UpdateProductVariantInput extends OmitType(
   CreateProductVariantInput,
+  ['options', 'productId'] as const,
 ) {
-  @Field(() => ID)
-  id: string;
+  @Field(() => String, { nullable: true })
+  id?: string;
+
+  @Field(() => [UpdateProductVariantOptionInput], { nullable: true })
+  options?: UpdateProductVariantOptionInput[];
+
+  @Field(() => String, { nullable: true })
+  productId?: string;
 }
