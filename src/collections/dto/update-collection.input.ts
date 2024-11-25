@@ -1,8 +1,11 @@
+import { Field, InputType, PartialType } from '@nestjs/graphql';
 import { CreateCollectionInput } from './create-collection.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateCollectionInput extends PartialType(CreateCollectionInput) {
-  @Field(() => Int)
-  id: number;
+  @Field(() => String, { nullable: true })
+  id?: string;
+
+  @Field(() => [String], { nullable: true })
+  productIds?: string[];
 }
