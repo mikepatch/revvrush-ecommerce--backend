@@ -325,7 +325,7 @@ type Mutation {
   createProductReview(createProductReviewInput: CreateProductReviewInput!): ProductReview!
   createProductVariant(createProductVariantInput: CreateProductVariantInput!): ProductVariant!
   removeCart(id: ID!): Cart!
-  removeCollection(id: Int!): Collection!
+  removeCollection(id: String!): Collection!
 
   """Remove item from cart"""
   removeItemFromCart(cartItemId: ID!): CartItem
@@ -333,7 +333,7 @@ type Mutation {
   removeProduct(id: ID!): Product!
   removeProductCategory(id: ID!): ProductCategory!
   removeProductReview(id: Int!): ProductReview!
-  removeProductVariant(id: Int!): ProductVariant!
+  removeProductVariant(id: String!): ProductVariant!
   updateCart(id: ID!, updateCartInput: UpdateCartInput!): Cart!
   updateCartItem(cartItemId: ID!, data: UpdateCartItemInput!): CartItem!
   updateCollection(updateCollectionInput: UpdateCollectionInput!): Collection!
@@ -913,7 +913,7 @@ type Query {
   productCategoryById(id: ID!): ProductCategory!
   productReview(id: ID!): ProductReview!
   productReviews(orderBy: ProductReviewOrderByWithRelationInput, where: ProductReviewWhereInput): ProductReviewListWithMeta!
-  productVariant(id: Int!): ProductVariant!
+  productVariant(id: String!): ProductVariant!
   productVariants: [ProductVariant!]!
   products(orderBy: ProductOrderByWithRelationInput, skip: Int = 0, take: Int = 10, where: ProductWhereInput): ProductList!
   productsByCategorySlug(skip: Int = 0, slug: String!, take: Int = 10): ProductList!
@@ -995,13 +995,11 @@ input UpdateCollectionInput {
 
   """Product collection description"""
   description: String
-  id: Int!
+  id: String
 
   """Product collection name"""
   name: String
-
-  """Product IDs in the collection"""
-  productIds: [ID!]
+  productIds: [String!]
 }
 
 input UpdateOrderInput {
@@ -1050,22 +1048,26 @@ input UpdateProductReviewInput {
 }
 
 input UpdateProductVariantInput {
-  id: ID!
+  id: String
 
   """Product variant name"""
-  name: String
-
-  """Product variant options"""
-  options: [CreateProductVariantOptionInput!]
+  name: String!
+  options: [UpdateProductVariantOptionInput!]
 
   """Product variant price"""
   price: Int
-
-  """Product variant productId"""
   productId: String
 
   """Product variant stock"""
-  stock: Int = 0
+  stock: Int! = 0
+}
+
+input UpdateProductVariantOptionInput {
+  """Product variant option name"""
+  name: String
+
+  """Product variant option values"""
+  values: [String!]
 }
 
 input UserRelationFilter {
